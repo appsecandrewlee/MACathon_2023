@@ -7,12 +7,12 @@ from firebase_admin import credentials, firestore, initialize_app
 app = FastAPI()
 
 # Initialize Firebase Admin
-cred = credentials.Certificate("path_to_your_firebase_serviceAccountKey.json")
-initialize_app(cred)
-db = firestore.client()
+# cred = credentials.Certificate("path_to_your_firebase_serviceAccountKey.json")
+# initialize_app(cred)
+# db = firestore.client()
 
 # Initialize Google Translate
-translate_client = translate.Client()
+# translate_client = translate.Client()
 
 @app.post("/upload/")
 async def upload_image(file: UploadFile = File(...)):
