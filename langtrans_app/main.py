@@ -1,4 +1,5 @@
 from fastapi import FastAPI, UploadFile, File
+from fastapi.middleware.cors import CORSMiddleware
 import cv2
 import numpy as np
 from google.cloud import translate_v2 as translate
@@ -13,6 +14,22 @@ app = FastAPI()
 
 # Initialize Google Translate
 # translate_client = translate.Client()
+origins = [
+    "http://localhost:3000",  # This is the typical port for React apps
+    # Add other origins (frontend URLs) if needed
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+@app.get("/")
+def read_root():
+    return {"Hello": "World"}
+
 
 @app.post("/upload/")
 async def upload_image(file: UploadFile = File(...)):
