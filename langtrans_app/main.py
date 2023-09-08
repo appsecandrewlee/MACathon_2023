@@ -15,7 +15,7 @@ app = FastAPI()
 # Initialize Google Translate
 # translate_client = translate.Client()
 origins = [
-    "http://localhost:3000",  # This is the typical port for React apps
+    "http://localhost:19006",  # This is the typical port for React apps
     # Add other origins (frontend URLs) if needed
 ]
 app.add_middleware(
