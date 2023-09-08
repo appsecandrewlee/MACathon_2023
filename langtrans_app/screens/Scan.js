@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { Camera } from 'expo-camera';
 
@@ -31,26 +31,21 @@ export default function CameraScreen() {
   };
 
   return (
-    <View style={{ flex: 1 }}>
-      <Camera style={{ flex: 1 }} ref={cameraRef}>
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: 'transparent',
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'flex-end',
-            paddingBottom: 20,
-          }}>
-          <TouchableOpacity
-            onPress={captureImage}
-            style={{ alignSelf: 'center' }}>
-            <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>
-              Capture
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </Camera>
+    <View style={{ flex: 1, backgroundColor: 'rgba(255, 160, 160, 0.5)' }}>  
+      <Camera style={{ flex: 1 }} ref={cameraRef} />
+
+      <View
+        style={{
+          position: 'absolute',
+          bottom: 20,
+          left: 0,
+          right: 0,
+          alignItems: 'center',
+        }}>
+        <TouchableOpacity onPress={captureImage}>
+          <Text style={{ fontSize: 18, color: 'white' }}>Capture</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
