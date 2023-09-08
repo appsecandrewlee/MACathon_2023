@@ -4,13 +4,14 @@ import cv2
 import numpy as np
 from google.cloud import translate_v2 as translate
 from firebase_admin import credentials, firestore, initialize_app
+from firebase_admin import auth
 
 app = FastAPI()
 
 # Initialize Firebase Admin
-# cred = credentials.Certificate("path_to_your_firebase_serviceAccountKey.json")
-# initialize_app(cred)
-# db = firestore.client()
+cred = credentials.Certificate("/Users/vellichastrxism/Desktop/Macathon/MACathon_2023/langtrans_app/macathon2023-27687-firebase-adminsdk-t5le9-d7a6865b5b.json")
+initialize_app(cred)
+db = firestore.client()
 
 # Initialize Google Translate
 # translate_client = translate.Client()
@@ -31,7 +32,19 @@ def read_root():
     return {"Hello": "World"}
 
 
+@app.post("/verify-token/")
+def verify_token(id_token: str):
+    try:
+        decoded_token = auth.verify_id_token(id_token)
+        uid = decoded_token['uid']
+        return {"uid": uid}
+    except ValueError:
+        return {"error": "Invalid token"}
+
+
 @app.post("/upload/")
+
+
 async def upload_image(file: UploadFile = File(...)):
     image_stream = await file.read()
     image_np = np.fromstring(image_stream, np.uint8)
