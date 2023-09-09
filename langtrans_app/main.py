@@ -78,6 +78,7 @@ def sign_up(email: str = Body(...), password: str = Body(...), preferred_languag
         raise HTTPException(status_code=400, detail=str(e))
 
 
+
 @app.post("/token/")
 def generate_token(email: str, password: str):
     # Fetch user data from Firestore based on email
