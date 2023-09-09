@@ -5,7 +5,8 @@ import axios from "axios";
 import SignupScreen from './screens/Signup'; // Import the signup screen
 import LoginScreen from './screens/Login'; // Import the login screen
 import CameraScreen from './screens/Scan'; // Assuming you also have a camera screen
-import HomeScreen from './screens/Home'; // Assuming you also have a camera screen
+import MainScreen from './screens/Main'; // Assuming you also have a camera screen
+import ProfileScreen from './screens/Profile'; // Assuming you also have a camera screen
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -49,8 +50,8 @@ export default function App() {
       <Stack.Navigator initialRouteName="Login">
         <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Signup" component={SignupScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="Camera" component={CameraScreen} options={{ title: 'Capture Image' }} />
-        <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Main" component={MainScreen} options={{ headerShown: false }} />
+        {/* <Stack.Screen name="Camera" component={CameraScreen} options={{ title: 'Capture Image' }} /> */}
         {/* Add more screens as needed */}
       </Stack.Navigator>
     </NavigationContainer>
