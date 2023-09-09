@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { colors, commonStyles } from '../styles/styles';
+import LinearGradient from 'react-native-linear-gradient';
 import {
   SafeAreaView,
   View,
@@ -28,7 +29,7 @@ export default function LoginScreen({navigation}) {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.blue }}>
       <View style={commonStyles.container}>
-        
+
         <View style={commonStyles.header}>
           <Image
             alt=""
@@ -41,9 +42,8 @@ export default function LoginScreen({navigation}) {
             // }}
           />
           <Text style={[commonStyles.title,{ color: colors.text }]}>
-            Sign in to <Text style={commonStyles.title}>TransApp</Text>
+            Log in to <Text style={commonStyles.title}>TransApp</Text>
           </Text>
-          <View style={{marginBottom: 50}}></View>
         </View>
 
         <View style={commonStyles.form}>
@@ -77,11 +77,9 @@ export default function LoginScreen({navigation}) {
 
           <View style={commonStyles.formAction}>
             <TouchableOpacity
-              onPress={() => {
-                // handle onPress
-              }}>
+              onPress={() => navigation.navigate('Home')}>
               <View style={commonStyles.btn}>
-                <Text style={commonStyles.btnText}>SIGN IN</Text>
+                <Text style={commonStyles.btnText}>LOG IN</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -96,9 +94,7 @@ export default function LoginScreen({navigation}) {
           </TouchableOpacity>
 
         </View>
-        
       </View>
-      
     </SafeAreaView>
   );
 }

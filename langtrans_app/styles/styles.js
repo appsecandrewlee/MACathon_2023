@@ -5,6 +5,7 @@
 // export { Typography, Spacing, Colors, Buttons }
 
 import { StyleSheet } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 
 const colors = {
   pink: '#FFB3E8',
@@ -12,6 +13,7 @@ const colors = {
   // blue: '#2B2DA4',
   grey: '#F0F0F0',
   text: '#FFFFFF',
+  // primaryGradient: ['#AA076B', '#61045F'],
 };
 
 const fonts = {
@@ -78,7 +80,7 @@ const commonStyles = StyleSheet.create({
     fontSize: 27,
     fontWeight: '700',
     color: colors.pink,
-    marginBottom: 6,
+    marginBottom: 50,
     textAlign: 'center',
   },
 
@@ -87,6 +89,7 @@ const commonStyles = StyleSheet.create({
     fontWeight: '500',
     color: colors.text,
     textAlign: 'center',
+    marginBottom: 36
   },
   
   form: {
@@ -144,10 +147,15 @@ const commonStyles = StyleSheet.create({
   btnText: {
     fontSize: 18,
     lineHeight: 26,
-    fontWeight: '600',
+    fontWeight: '800',
     color: colors.blue,
   },
   
+  linearGradient: {
+    flex: 1,
+    width: '100%',
+  },
+
   // button: {
   //   backgroundColor: colors.primary,
   //   padding: spacing.medium,

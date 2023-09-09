@@ -50,7 +50,7 @@ export default function App() {
         <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Signup" component={SignupScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Camera" component={CameraScreen} options={{ title: 'Capture Image' }} />
-        <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Home' }} />
+        <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
         {/* Add more screens as needed */}
       </Stack.Navigator>
     </NavigationContainer>
