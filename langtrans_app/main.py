@@ -15,9 +15,6 @@ class LoginData(BaseModel):
     password: str
 
 
-
-
-
 app = FastAPI()
 
 # Initialize Firebase Admin
