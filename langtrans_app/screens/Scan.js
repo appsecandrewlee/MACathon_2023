@@ -5,6 +5,9 @@ import { Camera } from 'expo-camera';
 export default function CameraScreen() {
   const [hasPermission, setHasPermission] = useState(null);
   const cameraRef = useRef(null);
+  const [translatedText, setTranslatedText] = useState("");
+  const [isTextVisible, setIsTextVisible] = useState(true);
+
 
   useEffect(() => {
     (async () => {
@@ -23,29 +26,57 @@ export default function CameraScreen() {
 
   const captureImage = async () => {
     if (cameraRef.current) {
-      let photo = await cameraRef.current.takePictureAsync();
-      console.log('photo', photo);
-      // Send the photo to your backend for processing with OpenCV
-      // fetch(backendURL, { method: 'POST', body: photo.uri ... });
+        let photo = await cameraRef.current.takePictureAsync();
+        console.log('photo', photo);
+        
+        let formData = new FormData();
+        formData.append('file', {
+            uri: photo.uri,
+            type: 'image/jpeg',   // or photo.type
+            name: 'upload.jpg'
+        });
+
+        fetch("http://127.0.0.1:8000/upload", {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'content-type': 'multipart/form-data',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            setTranslatedText(data.translated);
+        })
+        .catch(error => {
+            console.error("There was an error uploading the photo.", error);
+        });
     }
-  };
+};
 
-  return (
-    <View style={{ flex: 1, backgroundColor: 'rgba(255, 160, 160, 0.5)' }}>  
-      <Camera style={{ flex: 1 }} ref={cameraRef} />
 
-      <View
-        style={{
-          position: 'absolute',
-          bottom: 20,
-          left: 0,
-          right: 0,
-          alignItems: 'center',
-        }}>
-        <TouchableOpacity onPress={captureImage}>
-          <Text style={{ fontSize: 18, color: 'white' }}>Capture</Text>
-        </TouchableOpacity>
-      </View>
+return (
+  <View style={{ flex: 1, backgroundColor: 'rgba(255, 160, 160, 0.5)' }}>  
+    <Camera style={{ flex: 1 }} ref={cameraRef} />
+
+    <View
+      style={{
+        position: 'absolute',
+        bottom: 50,  // Adjusted to make space for the translated text
+        left: 0,
+        right: 0,
+        alignItems: 'center',
+      }}>
+      <TouchableOpacity onPress={captureImage}>
+        <Text style={{ fontSize: 18, color: 'white' }}>Capture</Text>
+      </TouchableOpacity>
+
+      {/* Display the translated text below the Capture button */}
+      <TouchableOpacity onPress={() => setIsTextVisible(!isTextVisible)}>
+          {isTextVisible && <Text style={{ fontSize: 16, color: 'white', marginTop: 20 }}>{translatedText}</Text>}
+      </TouchableOpacity>
     </View>
-  );
+  </View>
+);
+
 }

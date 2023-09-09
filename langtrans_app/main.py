@@ -128,7 +128,7 @@ def translate_text(
     """Translating Text."""
 
     client = translate.TranslationServiceClient()
-    original_language = detect_language(text)
+    original_language = detect_language(text)["language"]
     location = "global"
 
     parent = f"projects/{project_id}/locations/{location}"
@@ -141,7 +141,7 @@ def translate_text(
             "parent": parent,
             "contents": [text],
             "mime_type": "text/plain",  # mime types: text/plain, text/html
-            "source_language_code": "en-US",
+            "source_language_code": original_language,
             "target_language_code": "en-US",
         }
     )
@@ -169,5 +169,5 @@ def detect_language(text: str) -> dict:
     return result
 
 
-print(translate_text("My name is Johnny"))
-print(detect_language("Halo nama saya"))
+print(translate_text("Halo nama saya"))
+print(translate_text("Halo nama saya"))
