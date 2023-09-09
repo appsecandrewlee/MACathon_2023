@@ -1,8 +1,4 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { Alert } from "react-native";
-import { useNavigation } from '@react-navigation/native';
-
+import React, { useState } from 'react';
 import {
   StyleSheet,
   SafeAreaView,
@@ -14,7 +10,6 @@ import {
 } from "react-native";
 
 export default function Example() {
-  const navigation = useNavigation();
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -29,45 +24,9 @@ export default function Example() {
   //     .then(data => setData(data));
   // }, []);
 
-  const handleSignUp = async () => {
-    try {
-      const response = await axios.post("http://127.0.0.1:8000/", {
-        email: form.email,
-        password: form.password,
-      });
-
-      if (response.data && response.data.uid) {
-        Alert.alert("Success!", "Account created successfully.");
-      } else {
-        Alert.alert("Error", "Failed to create account.");
-      }
-    } catch (error) {
-      Alert.alert("Error", error.message);
-    }
-  };
-
-  const handleLogin = async () => {
-    try {
-      const response = await axios.post("http://127.0.0.1:8000/login/", {
-        email: form.email,
-        password: form.password,
-      });
-
-      if (response.data && response.data.message === "Login successful!") {
-        navigation.navigate('Home')
-        Alert.alert("Success!", "Logged in successfully.", [
-          { text: "OK", onPress: () => navigation.navigate('Home') },
-        ]);
-      } else {
-        Alert.alert("Error", "Failed to log in.");
-      }
-    } catch (error) {
-      Alert.alert("Error", error.message);
-    }
-  };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#e8ecf4" }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#e8ecf4' }}>
       <View style={styles.container}>
         <View style={styles.header}>
           <Image
@@ -75,18 +34,19 @@ export default function Example() {
             resizeMode="contain"
             style={styles.headerImg}
             source={{
-              uri: "https://cdn-icons-png.flaticon.com/512/484/484633.png",
+              uri: 'https://cdn-icons-png.flaticon.com/512/484/484633.png',
             }}
           />
 
           <Text style={styles.title}>
-            Sign in to <Text style={{ color: "#c90661" }}>LangTransApp</Text>
+            Sign in to <Text style={{ color: '#c90661' }}>LangTransApp</Text>
           </Text>
         </View>
 
         <View style={styles.form}>
           <View style={styles.input}>
             <Text style={styles.inputLabel}>Email</Text>
+
             <TextInput
               autoCapitalize="none"
               autoCorrect={false}
@@ -101,6 +61,8 @@ export default function Example() {
 
           <View style={styles.input}>
             <Text style={styles.inputLabel}>Password</Text>
+          <View style={commonStyles.input}>
+            <Text style={commonStyles.inputLabel}>Password</Text>
             <TextInput
               autoCorrect={false}
               onChangeText={(password) => setForm({ ...form, password })}
@@ -113,7 +75,10 @@ export default function Example() {
           </View>
 
           <View style={styles.formAction}>
-            <TouchableOpacity onPress={handleLogin}>
+            <TouchableOpacity
+              onPress={() => {
+                // handle onPress
+              }}>
               <View style={styles.btn}>
                 <Text style={styles.btnText}>Sign In</Text>
               </View>
@@ -121,12 +86,13 @@ export default function Example() {
           </View>
 
           <TouchableOpacity
-            onPress={handleSignUp}
-            style={{ marginTop: "auto" }}
-          >
+            onPress={() => {
+              // handle link
+            }}
+            style={{ marginTop: 'auto' }}>
             <Text style={styles.formFooter}>
-              Don't have an account?{" "}
-              <Text style={{ textDecorationLine: "underline" }}>Sign Up</Text>
+              Don't have an account?{' '}
+              <Text style={{ textDecorationLine: 'underline' }}>Sign Up</Text>
             </Text>
           </TouchableOpacity>
         </View>
