@@ -117,8 +117,7 @@ export default function Login() {
           </View>
 
           <View style={commonStyles.formAction}>
-            <TouchableOpacity
-             onPress={handleLogin}>
+            <TouchableOpacity onPress={handleLogin}>
               <View style={commonStyles.btn}>
                 <Text style={commonStyles.btnText}>LOG IN</Text>
               </View>

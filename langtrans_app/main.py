@@ -59,6 +59,20 @@ def store_user_data(uid: str, email: str, password: str):
     })
     return {"status": "success"}
 
+
+
+@app.post("/sign_up/")
+def sign_up(email: str = Body(...), password: str = Body(...), preferred_language: str = Body(...)):
+    try:
+        user = auth.create_user(
+            email=email,
+            password=password
+        ) 
+        return {"message": "Account created successfully", "uid": user.uid, "preferred_language": preferred_language}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
 @app.post("/token/")
 def generate_token(email: str, password: str):
     # Fetch user data from Firestore based on email
@@ -82,17 +96,6 @@ def generate_token(email: str, password: str):
     return {"token": token}
 
 
-@app.post("/")
-def sign_up(email: str = Body(...), password: str = Body(...)):
-    try:
-        # Create a new user using Firebase Authentication
-        user = auth.create_user(
-            email=email,
-            password=password
-        )
-        return {"message": "Account created successfully", "uid": user.uid}
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
 
 
 @app.post("/login/")
