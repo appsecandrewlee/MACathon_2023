@@ -6,7 +6,7 @@ import { colors, commonStyles } from '../styles/styles';
 import storageService from '../services/storageService'; // <- Import storageService
 import { clearUserData } from '../slices/userSlice.js';
 // Import your logout action
-import { setUserData, clearUserData } from '../slices/userSlice';
+
 
 
 export default function SettingsScreen() {
