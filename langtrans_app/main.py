@@ -15,7 +15,7 @@ from firebase_admin._auth_utils import UserNotFoundError
 import jwt
 from fastapi import Depends, HTTPException
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-import bcrypt
+# import bcrypt
 
 
 
@@ -100,7 +100,7 @@ def login(data: LoginData):
     try:
         user_record = auth.get_user_by_email(data.email)
         
-                
+        print(data)
         return {"message": "Email is valid. Password verification should be handled in the frontend."}
     
     except UserNotFoundError:
@@ -129,7 +129,6 @@ def verify_token(id_token: str):
     except ValueError:
         return {"error": "Invalid token"}
 
-
 @app.post("/upload/")
 async def upload_image(uid: str, file: UploadFile = File(...)):
     image_stream = await file.read()
@@ -141,18 +140,18 @@ async def upload_image(uid: str, file: UploadFile = File(...)):
     print(text)
     
     # Save the image to Firebase Storage
-    bucket = storage.bucket()
-    blob = bucket.blob(f"{uid}/{file.filename}")
-    blob.upload_from_string(image_stream, content_type=file.content_type)
-    image_url = blob.public_url
+    # bucket = storage.bucket()
+    # blob = bucket.blob(f"{uid}/{file.filename}")
+    # blob.upload_from_string(image_stream, content_type=file.content_type)
+    # image_url = blob.public_url
     
     # Optionally, save the reference to Firestore
-    user_ref = db.collection(u'users').document(uid)
-    user_ref.update({
-        u'images': firestore.ArrayUnion([image_url])
-    })
+    # user_ref = db.collection(u'users').document(uid)
+    # user_ref.update({
+    #     u'images': firestore.ArrayUnion([image_url])
+    # })
     
-        print("Received request")
+    print("Received request")
     print(file)
     image_stream = await file.read()
     image_np = np.fromstring(image_stream, np.uint8)
@@ -175,14 +174,13 @@ async def upload_image(uid: str, file: UploadFile = File(...)):
 
     return {"original": text, "image_url": image_url}
 
-# Initialize Google Translate
+@app.get("/translate/")
 def translate_text(
-    text: str = "YOUR_TEXT_TO_TRANSLATE", project_id: str = "macathon2023-27687"
-) -> translate.TranslationServiceClient:
+    text: str = "YOUR_TEXT_TO_TRANSLATE", original_language: str = "zh-cn"
+):
     """Translating Text."""
-
+    project_id: str = "macathon2023-27687"
     client = translate.TranslationServiceClient()
-    original_language = detect_language(text)["language"]
     location = "global"
 
     parent = f"projects/{project_id}/locations/{location}"
@@ -195,8 +193,8 @@ def translate_text(
             "parent": parent,
             "contents": [text],
             "mime_type": "text/plain",  # mime types: text/plain, text/html
-            "source_language_code": original_language,
-            "target_language_code": "en-US",
+            "source_language_code": "en-US",
+            "target_language_code": original_language,
         }
     )
 
@@ -223,5 +221,5 @@ def detect_language(text: str) -> dict:
     return result
 
 
-print(translate_text("Halo nama saya"))
-print(translate_text("Halo nama saya"))
+print(translate_text("Hello my name is"))
+print(translate_text("Hello my name is"))
