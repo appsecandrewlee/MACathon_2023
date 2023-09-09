@@ -16,9 +16,9 @@ import jwt
 from fastapi import Depends, HTTPException
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 import bcrypt
+from fastapi.security import OAuth2PasswordBearer
 
-
-
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/token/")
 
 class LoginData(BaseModel):
     email: str
@@ -49,13 +49,14 @@ app.add_middleware(
 SECRET_KEY = "YOUR_SECRET_KEY"  # Change this to a random, secure key
 
 @app.post("/store-user-data/")
-def store_user_data(uid: str, email: str, password: str):
+def store_user_data(uid: str, email: str, password: str, prefered_language: str = "zh-cn"):
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
     db = firestore.client()
     user_ref = db.collection(u'users').document(uid)
     user_ref.set({
         u'email': email,
-        u'password': hashed_password
+        u'password': hashed_password,
+        u'prefered_language': prefered_language  # Added comma here
     })
     return {"status": "success"}
 
@@ -71,7 +72,7 @@ def sign_up(email: str = Body(...), password: str = Body(...), preferred_languag
             password=password
         )
         print(user)
-        store_user_data(uid=user.uid, email=email, password=password)
+        store_user_data(uid=user.uid, email=email, password=password, prefered_language= preferred_language,)
         return {"message": "Account created successfully", "uid": user.uid, "preferred_language": preferred_language}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -182,6 +183,16 @@ async def upload_image(uid: str, file: UploadFile = File(...)):
     return {"original": text, "image_url": image_url}
 
 @app.get("/translate/")
+def translate_api(text: str):
+    try:
+        result = translate_text(str)
+        if result:
+            return result
+        else:
+            return {"error": "Document does not exist"}
+    except Exception as e:
+        return {"error": str(e)}
+    
 def translate_text(
     text: str = "YOUR_TEXT_TO_TRANSLATE", original_language: str = "zh-cn"
 ):
@@ -226,6 +237,19 @@ def detect_language(text: str) -> dict:
     print("Language: {}".format(result["language"]))
 
     return result
+
+
+
+
+def get_current_user(token: str = Depends(oauth2_scheme)):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+        email: str = payload.get("email")
+        if email is None:
+            raise HTTPException(status_code=401, detail="Could not validate credentials")
+        return email
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Could not validate credentials")
 
 
 print(translate_text("Hello my name is"))

@@ -8,7 +8,8 @@ import CameraScreen from "./screens/Scan"; // Assuming you also have a camera sc
 import MainScreen from "./screens/Main"; // Assuming you also have a camera screen
 import ProfileScreen from "./screens/Settings"; // Assuming you also have a camera screen
 import Definition from "./screens/Definition";
-
+import { Provider } from 'react-redux';
+import store from './store';
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -81,7 +82,7 @@ export default function App() {
     }
   };
 
-  return (
+  return ( <Provider store={store}>
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
         <Stack.Screen
@@ -99,7 +100,6 @@ export default function App() {
           component={MainScreen}
           options={{ headerShown: false }}
         />
-        {/* <Stack.Screen name="Camera" component={CameraScreen} options={{ title: 'Capture Image' }} /> */}
         <Stack.Screen
           name="Definition"
           component={Definition}
@@ -108,5 +108,6 @@ export default function App() {
         {/* Add more screens as needed */}
       </Stack.Navigator>
     </NavigationContainer>
+  </Provider>
   );
 }

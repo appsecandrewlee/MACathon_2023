@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { colors, commonStyles } from "../styles/styles";
 import axios from "axios";
+import { useDispatch } from 'react-redux'; 
+import { setUserData } from '../slices/userSlice';
+import storageService from '../services/storageService';
+
 import {
   SafeAreaView,
   View,
@@ -11,6 +15,7 @@ import {
 } from "react-native";
 
 export default function SignupScreen({ navigation }) {
+  const dispatch = useDispatch();
   const [form, setForm] = useState({
     preferred_language: "",
     email: "",
@@ -57,6 +62,29 @@ export default function SignupScreen({ navigation }) {
         Alert.alert("Error", error.message);
       }
     }
+
+    if (response.data && response.data.message === "Account created successfully") {
+      const userUid = response.data.uid;
+      const userToken = response.data.token;
+      const userEmail = form.email;
+      const userLanguage = form.preferred_language; // From the form
+    
+      // Update Redux state
+      dispatch(setUserData({
+        token: userToken,
+        uid: userUid,
+        email: userEmail,
+        preferred_language: userLanguage,
+        // ... Any other user details
+      }));
+    
+      // Update AsyncStorage
+      await storageService.saveToken(userToken);
+      await storageService.saveUID(userUid);
+      await storageService.saveEmail(userEmail);
+      await storageService.savePreferredLanguage(userLanguage);  // Again, you'll need to create this in storageService.js
+    }
+    
   };
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.blue }}>
