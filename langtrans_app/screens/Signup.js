@@ -11,12 +11,14 @@ import {
 // import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default function SignupScreen({navigation}) {
+  
   const [form, setForm] = useState({
     fullname: '',
     email: '',
     password: '',
     confirmPassword: '',
   });
+  
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
       <View style={styles.container}>
