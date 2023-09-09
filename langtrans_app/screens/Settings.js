@@ -57,14 +57,6 @@ export default function SettingsScreen() {
       </View>
       </SafeAreaView>
     );
-  //   <View>
-  //     <Text>Profile pic here</Text>
-  //     <Text>List of things here</Text>
-  //     <Text>My details</Text>
-  //     <Text>Settings and privacy</Text>
-  //     <Text></Text>
-  //   </View>
-  // );
 };
 
 const styles = StyleSheet.create({

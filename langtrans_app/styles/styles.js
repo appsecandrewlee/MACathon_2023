@@ -143,6 +143,14 @@ const commonStyles = StyleSheet.create({
     margin: 5,
     borderRadius: 8,
     alignSelf: "flex-start",
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+    elevation: 2,
   },
 
   spaceTini: {
@@ -301,6 +309,14 @@ const commonStyles = StyleSheet.create({
     padding: 24,
     marginBottom: 16,
     borderRadius: 8,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+    elevation: 2,
   },
 
   expandContainer: {
@@ -316,12 +332,27 @@ const commonStyles = StyleSheet.create({
     padding: 16,
     // marginBottom: 16,
     borderRadius: 8,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+    elevation: 2,
   },
 
   profileImage: {
     width: 120,
     height: 120,
     borderRadius: 60, // Half of the width and height to create a circle
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
   },
 
   profileHeader: {

@@ -169,7 +169,16 @@ const styles = StyleSheet.create({
     },
     searchBar: {
         flex: 6, // Takes up 75% of the width
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.2,
+        shadowRadius: 1.41,
+        elevation: 2,
     },
+
     input: {
         // borderWidth: 1,
         height: 44,
@@ -190,6 +199,14 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
         alignItems: 'center',
         justifyContent: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+        width: 0,
+        height: 1,
+        },
+        shadowOpacity: 0.2,
+        shadowRadius: 1.41,
+        elevation: 2,
     },
     buttonText: {
         color: 'black',
