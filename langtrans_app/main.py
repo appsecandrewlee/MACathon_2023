@@ -20,7 +20,7 @@ class LoginData(BaseModel):
 app = FastAPI()
 
 # Initialize Firebase Admin
-cred = credentials.Certificate("/Users/vellichastrxism/Desktop/Macathon/MACathon_2023/langtrans_app/macathon2023-27687-firebase-adminsdk-t5le9-d7a6865b5b.json")
+cred = credentials.Certificate("../langtrans_app/macathon2023-27687-firebase-adminsdk-t5le9-d7a6865b5b.json")
 initialize_app(cred)
 db = firestore.client()
 print(db)

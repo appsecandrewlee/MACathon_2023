@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Alert } from "react-native";
+import { useNavigation } from '@react-navigation/native';
 
 import {
   StyleSheet,
@@ -13,6 +14,7 @@ import {
 } from "react-native";
 
 export default function Example() {
+  const navigation = useNavigation();
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -53,7 +55,7 @@ export default function Example() {
 
       if (response.data && response.data.message === "Login successful!") {
         Alert.alert("Success!", "Logged in successfully.", [
-          { text: "OK", onPress: () => navigation.navigate("Home") },
+          { text: "OK", onPress: () => navigation.navigate('Home') },
         ]);
       } else {
         Alert.alert("Error", "Failed to log in.");
