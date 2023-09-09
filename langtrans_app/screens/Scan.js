@@ -42,7 +42,6 @@ export default function CameraScreen() {
       });
 
         fetch("http://118.138.85.230:8000/upload", {
-        fetch("http://118.138.85.230:8000/upload", {
             method: 'POST',
             body: formData,
             headers: {

@@ -39,7 +39,7 @@ export default function Login() {
         password: form.password,
       });
       showAlert();
-      navigation.navigate("Home");
+      navigation.navigate("Main");
 
       console.log("Backend Response:", response.data); // Log the response
 
@@ -117,12 +117,8 @@ export default function Login() {
           </View>
 
           <View style={commonStyles.formAction}>
-<<<<<<< HEAD
-            <TouchableOpacity >
-=======
-            <TouchableOpacity></TouchableOpacity>
+            <TouchableOpacity
              onPress={handleLogin}>
->>>>>>> chloe
               <View style={commonStyles.btn}>
                 <Text style={commonStyles.btnText}>LOG IN</Text>
               </View>
