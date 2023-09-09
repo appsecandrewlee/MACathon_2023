@@ -21,7 +21,7 @@ export default function LoginScreen({navigation}) {
 
   // useEffect(() => {
   //   // Fetch data from FastAPI backend
-  //   fetch("http://localhost:8000/")  // This is the typical port for FastAPI apps
+  //   fetch("http://192.168.16.1:8000/")  // This is the typical port for FastAPI apps
   //     .then(response => response.json())
   //     .then(data => setData(data));
   // }, []);

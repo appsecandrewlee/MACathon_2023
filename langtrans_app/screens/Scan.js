@@ -36,7 +36,7 @@ export default function CameraScreen() {
             name: 'upload.jpg'
         });
 
-        fetch("http://127.0.0.1:8000/upload", {
+        fetch("http://118.138.85.230:8000/upload", {
             method: 'POST',
             body: formData,
             headers: {
@@ -52,7 +52,7 @@ export default function CameraScreen() {
             console.error("There was an error uploading the photo.", error);
         });
     }
-};
+  };
 
 
 return (

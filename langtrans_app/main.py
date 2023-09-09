@@ -11,6 +11,7 @@ from fastapi import HTTPException
 from fastapi import Body
 import pytesseract
 from pydantic import BaseModel
+from firebase_admin._auth_utils import UserNotFoundError
 
 class LoginData(BaseModel):
     email: str
@@ -28,10 +29,8 @@ print(db)
 
 # Initialize Google Translate
 # translate_client = translate.Client()
-origins = [
-    "http://localhost:19006",  # This is the typical port for React apps
-    # Add other origins (frontend URLs) if needed
-]
+origins = ["*"]
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -67,13 +66,14 @@ def sign_up(email: str = Body(...), password: str = Body(...)):
 
 @app.post("/login/")
 def login(data: LoginData):
-    hardcoded_email = "alee0050@student.monash.edu"
-    hardcoded_password = "testpassword"
+    try:
+        user_record = auth.get_user_by_email(data.email)
+        return {"message": "Email is valid. Password verification should be handled in the frontend."}
 
-    if data.email != hardcoded_email or data.password != hardcoded_password:
+    except UserNotFoundError:
+        raise HTTPException(status_code=400, detail="User not found")
+    except ValueError:
         raise HTTPException(status_code=400, detail="Incorrect email or password")
-
-    return {"message": "Login successful!"}
 
 
 @app.get("/test-firestore/")
@@ -98,14 +98,17 @@ def verify_token(id_token: str):
         return {"error": "Invalid token"}
 
 
-@app.post("/upload/")
+@app.post("/upload")
 async def upload_image(file: UploadFile = File(...)):
+    print("Received request")
+    print(file)
     image_stream = await file.read()
     image_np = np.fromstring(image_stream, np.uint8)
     image = cv2.imdecode(image_np, cv2.IMREAD_COLOR)
     
     # Extract text from the image using OpenCV and Tesseract
     text = pytesseract.image_to_string(image)
+    print(text)
     
     # Translate the text (for this example, translating to English)
     result = translate_text(text)
@@ -116,7 +119,7 @@ async def upload_image(file: UploadFile = File(...)):
     #     u'original': text,
     #     u'translated': translated_text
     # })
-
+    print("Processed image")
     return {"original": text, "translated": translated_text}
 
 
