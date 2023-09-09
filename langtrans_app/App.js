@@ -6,7 +6,7 @@ import SignupScreen from './screens/Signup'; // Import the signup screen
 import LoginScreen from './screens/Login'; // Import the login screen
 import CameraScreen from './screens/Scan'; // Assuming you also have a camera screen
 import MainScreen from './screens/Main'; // Assuming you also have a camera screen
-import ProfileScreen from './screens/Profile'; // Assuming you also have a camera screen
+import ProfileScreen from './screens/Settings'; // Assuming you also have a camera screen
 const Stack = createStackNavigator();
 
 export default function App() {

@@ -7,17 +7,17 @@ import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './Home'; // Import your screen components
-import ProfileScreen from './Profile';
 import ScanScreen from './Scan';
+import SettingsScreen from './Settings';
 
 const Tab = createBottomTabNavigator();
 
 export default function MainScreen() {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Scan" component={ScanScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+      <Tab.Screen name="Scan" component={ScanScreen} options={{ headerShown: false }} />
+      <Tab.Screen name="Settings" component={SettingsScreen} options={{ headerShown: false }}/>
     </Tab.Navigator>
   );
 }

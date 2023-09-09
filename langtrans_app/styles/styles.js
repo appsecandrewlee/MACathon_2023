@@ -10,9 +10,14 @@ import LinearGradient from 'react-native-linear-gradient';
 const colors = {
   pink: '#FFB3E8',
   blue: '#000000',
+  blue1: '#0942bd',
+  blue2: '#082178',
   // blue: '#2B2DA4',
   grey: '#F0F0F0',
+  darkgrey: '#222222',
   text: '#FFFFFF',
+  black: '#000000',
+  white: '#FFFFFF'
   // primaryGradient: ['#AA076B', '#61045F'],
 };
 
@@ -51,22 +56,17 @@ const commonStyles = StyleSheet.create({
     flexShrink: 1,
     flexBasis: 0,
   },
-  
+
+  containerVertical: {
+    paddingVertical: spacing.large,
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 0,
+  },
+
   header: {
     marginVertical: 36,
   },
-
-  // heading: {
-  //   fontSize: 24,
-  //   fontWeight: 'bold',
-  //   color: colors.text,
-  //   marginBottom: spacing.medium,
-  // },
-  
-  // text: {
-  //   fontSize: 16,
-  //   color: colors.text,
-  // },
 
   headerImg: {
         width: 80,
@@ -84,6 +84,75 @@ const commonStyles = StyleSheet.create({
     textAlign: 'center',
   },
 
+  titleBlack: {
+    fontSize: 27,
+    fontWeight: '700',
+    color: colors.black,
+    marginBottom: 50,
+    textAlign: 'center',
+  },
+
+  captionContainer: {
+    flex: 0.8
+  },
+
+  captionBlack: {
+    fontSize: 23,
+    fontWeight: '700',
+    color: colors.black,
+    marginTop: 50,
+    textAlign: 'left',
+  },
+
+  headingBlack: {
+    fontSize: 23,
+    fontWeight: '700',
+    color: colors.black,
+    marginTop: spacing.large,
+    textAlign: 'left',
+  },
+
+  wordListContainer: {
+    flexDirection: 'row', // Horizontal layout
+    flexWrap: 'wrap',     // Allow words to wrap to the next row
+    justifyContent: 'left', // Center items horizontally (optional)
+  },
+
+  wordContainer: {
+    backgroundColor: 'black',
+    paddingVertical: 10, // Adjust vertical padding as needed
+    paddingHorizontal: 18, // Adjust horizontal padding as needed
+    margin: 5,
+    borderRadius: 8,
+    alignSelf: 'flex-start',
+  },
+
+  spaceSmall: {
+    marginVertical: 10
+  },
+
+  spaceMedium: {
+    marginVertical: 30
+  },
+
+  spaceLarge: {
+    marginVertical: 50
+  },
+
+  wordText: {
+    color: 'white',
+    fontWeight: '700',
+    fontSize: 16,
+  },
+
+  captionPink: {
+    fontSize: 23,
+    fontWeight: '700',
+    color: colors.pink,
+    // marginBottom: 12,
+    textAlign: 'left',
+  },
+  
   subtitle: {
     fontSize: 15,
     fontWeight: '500',
@@ -92,6 +161,10 @@ const commonStyles = StyleSheet.create({
     marginBottom: 36
   },
   
+  body: {
+    paddingHorizontal: 8,
+  },
+
   form: {
     marginBottom: 24,
     flexGrow: 1,
@@ -156,28 +229,27 @@ const commonStyles = StyleSheet.create({
     width: '100%',
   },
 
-  // button: {
-  //   backgroundColor: colors.primary,
-  //   padding: spacing.medium,
-  //   borderRadius: borderRadius.medium,
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  // },
-  
-  // buttonText: {
-  //   fontSize: 18,
-  //   fontWeight: 'bold',
-  //   color: 'white',
-  // },
-  
-  // input: {
-  //   borderWidth: 1,
-  //   borderColor: colors.secondary,
-  //   borderRadius: borderRadius.small,
-  //   padding: spacing.small,
-  //   fontSize: 16,
-  //   marginBottom: spacing.medium,
-  // },
+  sectionBlack: {
+    backgroundColor: colors.black,
+    padding: 16,
+    marginBottom: 16,
+    borderRadius: 8,
+  },
+
+  expandContainer: {
+    paddingLeft: spacing.large, // Small left margin
+    paddingRight: 0, // No padding on the right, allowing overflow
+  },
+
+  collectionContainer: {
+    backgroundColor: colors.blue2,
+    paddingVertical: 20, // Adjust vertical padding as needed
+    // paddingHorizontal: 26, // Adjust horizontal padding as needed
+    // margin: 5,
+    padding: 16,
+    // marginBottom: 16,
+    borderRadius: 8,
+  }
   
 });
 
