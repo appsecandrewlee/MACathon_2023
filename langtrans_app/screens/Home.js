@@ -1,8 +1,8 @@
 // HomeScreen.js
 import React from 'react';
-import { View, Text, SafeAreaView, ScrollView, TouchableHighlight, FlatList } from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, TouchableHighlight, TouchableOpacity,  FlatList } from 'react-native';
 import { colors, commonStyles, spacing } from '../styles/styles';
-
+import { useNavigation } from '@react-navigation/native'
 export default function MainScreen() {
 
     const wordList = ['Apple','Banana','Cucumber','Durian','Eggplant','Fig','Grape','Honeydew', 'Icaco', 'Jackfruit', 'Kiwi', 'Lime'];
@@ -12,7 +12,7 @@ export default function MainScreen() {
     const pinks = ['#FF80C0', '#FF63B8', '#FF4D9D', '#FF3B9F', '#FF1287'];
     const purples = ['#D06EFF', '#B13BFF', '#9A00FF', '#8800CC', '#660099'];
     // const blues = ['#007ACC', '#004488', '#33B5E5', '#66C2FF', '#99D6FF'];
-
+    const navigation = useNavigation();
     
 
 
@@ -39,12 +39,18 @@ export default function MainScreen() {
                             <Text style={commonStyles.captionPink}>{wordList.length} new words today.</Text>
                             <Text style={commonStyles.captionPink}>Go you 🏅</Text>
                         </View>
-                        <View style={[commonStyles.wordListContainer,{paddingHorizontal: 10}]}>
-                            {wordList.map((word, index) => (
-                                <View key={index} style={[commonStyles.wordContainer,{backgroundColor: getRandomColor(pinks)}]}>
-                                <Text style={commonStyles.wordText}>{word}</Text>
-                                </View>
-                            ))}
+                        <View style={commonStyles.wordListContainer}>
+                          {wordList.map((word, index) => (
+                            <TouchableOpacity 
+                              key={index} 
+                              style={[commonStyles.wordContainer, {backgroundColor: getRandomColor(pinks)}]}
+                              onPress={() => {
+                                navigation.navigate('Definition', { translatedText: word });
+                              }}
+                            >
+                              <Text style={commonStyles.wordText}>{word}</Text>
+                            </TouchableOpacity>
+                          ))}
                         </View>
                     </View>
                     
