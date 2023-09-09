@@ -6,10 +6,11 @@ import {
   Text,
   TouchableOpacity,
   TextInput,
+  ScrollView
 } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+// import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-export default function Example() {
+export default function SignupScreen({navigation}) {
   const [form, setForm] = useState({
     fullname: '',
     email: '',
@@ -25,7 +26,7 @@ export default function Example() {
           <Text style={styles.subtitle}>Create an account to continue</Text>
         </View>
 
-        <KeyboardAwareScrollView>
+        <ScrollView>
           <View style={styles.form}>
             <View style={styles.input}>
               <Text style={styles.inputLabel}>Full name</Text>
@@ -99,13 +100,16 @@ export default function Example() {
               onPress={() => {
                 // handle link
               }}>
-              <Text style={styles.formFooter}>
+              <Text 
+                style={styles.formFooter}
+                onPress={() => navigation.navigate('Login')}
+              >
                 Already have an account?{' '}
                 <Text style={{ textDecorationLine: 'underline' }}>Sign in</Text>
               </Text>
             </TouchableOpacity>
           </View>
-        </KeyboardAwareScrollView>
+        </ScrollView>
       </View>
     </SafeAreaView>
   );

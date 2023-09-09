@@ -9,7 +9,8 @@ import {
   TextInput,
 } from 'react-native';
 
-export default function Example() {
+export default function LoginScreen({navigation}) {
+  
   const [form, setForm] = useState({
     email: '',
     password: '',
@@ -23,7 +24,6 @@ export default function Example() {
   //     .then(response => response.json())
   //     .then(data => setData(data));
   // }, []);
-
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#e8ecf4' }}>
@@ -90,7 +90,10 @@ export default function Example() {
               // handle link
             }}
             style={{ marginTop: 'auto' }}>
-            <Text style={styles.formFooter}>
+            <Text 
+              style={styles.formFooter}
+              onPress={() => navigation.navigate('Signup')}
+            >
               Don't have an account?{' '}
               <Text style={{ textDecorationLine: 'underline' }}>Sign Up</Text>
             </Text>
