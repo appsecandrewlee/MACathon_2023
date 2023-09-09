@@ -54,6 +54,7 @@ export default function Example() {
       });
 
       if (response.data && response.data.message === "Login successful!") {
+        navigation.navigate('Home')
         Alert.alert("Success!", "Logged in successfully.", [
           { text: "OK", onPress: () => navigation.navigate('Home') },
         ]);
