@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   StyleSheet,
   SafeAreaView,
@@ -7,12 +7,12 @@ import {
   Text,
   TouchableOpacity,
   TextInput,
-} from 'react-native';
+} from "react-native";
 
 export default function Example() {
   const [form, setForm] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
 
   const [message, setMessage] = useState("");
@@ -24,9 +24,42 @@ export default function Example() {
   //     .then(data => setData(data));
   // }, []);
 
+  const handleSignUp = async () => {
+    try {
+      const response = await axios.post("http://127.0.0.1:8000/", {
+        email: form.email,
+        password: form.password,
+      });
+
+      if (response.data && response.data.uid) {
+        Alert.alert("Success!", "Account created successfully.");
+      } else {
+        Alert.alert("Error", "Failed to create account.");
+      }
+    } catch (error) {
+      Alert.alert("Error", error.message);
+    }
+  };
+
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post("http://127.0.0.1:8000/login/", {
+        email: form.email,
+        password: form.password,
+      });
+
+      if (response.data && response.data.message === "Login successful!") {
+        Alert.alert("Success!", "Logged in successfully.");
+      } else {
+        Alert.alert("Error", "Failed to log in.");
+      }
+    } catch (error) {
+      Alert.alert("Error", error.message);
+    }
+  };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#e8ecf4' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#e8ecf4" }}>
       <View style={styles.container}>
         <View style={styles.header}>
           <Image
@@ -34,25 +67,23 @@ export default function Example() {
             resizeMode="contain"
             style={styles.headerImg}
             source={{
-              uri: 'https://cdn-icons-png.flaticon.com/512/484/484633.png',
+              uri: "https://cdn-icons-png.flaticon.com/512/484/484633.png",
             }}
           />
 
           <Text style={styles.title}>
-            Sign in to <Text style={{ color: '#c90661' }}>LangTransApp</Text>
+            Sign in to <Text style={{ color: "#c90661" }}>LangTransApp</Text>
           </Text>
-
         </View>
 
         <View style={styles.form}>
           <View style={styles.input}>
             <Text style={styles.inputLabel}>Email</Text>
-
             <TextInput
               autoCapitalize="none"
               autoCorrect={false}
               keyboardType="email-address"
-              onChangeText={email => setForm({ ...form, email })}
+              onChangeText={(email) => setForm({ ...form, email })}
               placeholder="john@example.com"
               placeholderTextColor="#6b7280"
               style={styles.inputControl}
@@ -62,10 +93,9 @@ export default function Example() {
 
           <View style={styles.input}>
             <Text style={styles.inputLabel}>Password</Text>
-
             <TextInput
               autoCorrect={false}
-              onChangeText={password => setForm({ ...form, password })}
+              onChangeText={(password) => setForm({ ...form, password })}
               placeholder="********"
               placeholderTextColor="#6b7280"
               style={styles.inputControl}
@@ -75,10 +105,7 @@ export default function Example() {
           </View>
 
           <View style={styles.formAction}>
-            <TouchableOpacity
-              onPress={() => {
-                // handle onPress
-              }}>
+            <TouchableOpacity onPress={handleLogin}>
               <View style={styles.btn}>
                 <Text style={styles.btnText}>Sign In</Text>
               </View>
@@ -86,13 +113,12 @@ export default function Example() {
           </View>
 
           <TouchableOpacity
-            onPress={() => {
-              // handle link
-            }}
-            style={{ marginTop: 'auto' }}>
+            onPress={handleSignUp}
+            style={{ marginTop: "auto" }}
+          >
             <Text style={styles.formFooter}>
-              Don't have an account?{' '}
-              <Text style={{ textDecorationLine: 'underline' }}>Sign Up</Text>
+              Don't have an account?{" "}
+              <Text style={{ textDecorationLine: "underline" }}>Sign Up</Text>
             </Text>
           </TouchableOpacity>
         </View>
@@ -100,7 +126,6 @@ export default function Example() {
     </SafeAreaView>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     padding: 24,
@@ -114,21 +139,21 @@ const styles = StyleSheet.create({
   headerImg: {
     width: 80,
     height: 80,
-    alignSelf: 'center',
+    alignSelf: "center",
     marginBottom: 36,
   },
   title: {
     fontSize: 27,
-    fontWeight: '700',
-    color: '#1d1d1d',
+    fontWeight: "700",
+    color: "#1d1d1d",
     marginBottom: 6,
-    textAlign: 'center',
+    textAlign: "center",
   },
   subtitle: {
     fontSize: 15,
-    fontWeight: '500',
-    color: '#929292',
-    textAlign: 'center',
+    fontWeight: "500",
+    color: "#929292",
+    textAlign: "center",
   },
   form: {
     marginBottom: 24,
@@ -141,9 +166,9 @@ const styles = StyleSheet.create({
   },
   formFooter: {
     fontSize: 17,
-    fontWeight: '600',
-    color: '#222',
-    textAlign: 'center',
+    fontWeight: "600",
+    color: "#222",
+    textAlign: "center",
     letterSpacing: 0.15,
   },
   input: {
@@ -151,34 +176,34 @@ const styles = StyleSheet.create({
   },
   inputLabel: {
     fontSize: 17,
-    fontWeight: '600',
-    color: '#222',
+    fontWeight: "600",
+    color: "#222",
     marginBottom: 8,
   },
   inputControl: {
     height: 44,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     paddingHorizontal: 16,
     borderRadius: 12,
     fontSize: 15,
-    fontWeight: '500',
-    color: '#222',
+    fontWeight: "500",
+    color: "#222",
   },
   btn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     borderRadius: 8,
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderWidth: 1,
-    backgroundColor: '#c90661',
-    borderColor: '#c90661',
+    backgroundColor: "#c90661",
+    borderColor: "#c90661",
   },
   btnText: {
     fontSize: 18,
     lineHeight: 26,
-    fontWeight: '600',
-    color: '#fff',
+    fontWeight: "600",
+    color: "#fff",
   },
 });
