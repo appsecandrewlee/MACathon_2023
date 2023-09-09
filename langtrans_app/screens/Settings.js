@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { colors, commonStyles } from '../styles/styles';
 import storageService from '../services/storageService'; // <- Import storageService
 import { clearUserData } from '../slices/userSlice.js';
+import { Alert } from "react-native";
 // Import your logout action
 
 
@@ -40,7 +41,15 @@ export default function SettingsScreen() {
               onPress={() => {
                 if (item.title === 'Log Out') {
                   dispatch(clearUserData());
-                  navigation.navigate('Login');
+                  Alert.alert("Success!", "Logged out successfully.", [
+                    {
+                      text: "OK",
+                      onPress: () => {
+                        console.log("Logging out"); // Log before navigating
+                        navigation.navigate("Login");
+                      },
+                    },
+                  ]);
                 }
               }}>
                 <Text style={commonStyles.inputLabelBlack}>{item.title}</Text>

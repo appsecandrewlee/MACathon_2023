@@ -181,7 +181,7 @@ async def upload_image(uid: str, file: UploadFile = File(...)):
     # })
     print("Processed image")
 
-    return {"original": text, "image_url": image_url}
+    return {"original": text, "translated": translate_text}
 
 @app.get("/translate/")
 def translate_api(text: str):
