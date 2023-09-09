@@ -76,6 +76,8 @@ export default function App() {
       console.error("Error verifying token:", error);
     }
   };
+
+  
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Loginn">
