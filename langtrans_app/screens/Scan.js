@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
-import { Camera } from 'expo-camera';
+import React, { useState, useRef, useEffect } from "react";
+import { Text, View, TouchableOpacity } from "react-native";
+import { Camera } from "expo-camera";
 
 export default function CameraScreen() {
   const [hasPermission, setHasPermission] = useState(null);
@@ -8,11 +8,10 @@ export default function CameraScreen() {
   const [translatedText, setTranslatedText] = useState("");
   const [isTextVisible, setIsTextVisible] = useState(true);
 
-
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestPermissionsAsync();
-      setHasPermission(status === 'granted');
+      setHasPermission(status === "granted");
     })();
   }, []);
 
@@ -26,15 +25,15 @@ export default function CameraScreen() {
 
   const captureImage = async () => {
     if (cameraRef.current) {
-        let photo = await cameraRef.current.takePictureAsync();
-        console.log('photo', photo);
-        
-        let formData = new FormData();
-        formData.append('file', {
-            uri: photo.uri,
-            type: 'image/jpeg',   // or photo.type
-            name: 'upload.jpg'
-        });
+      let photo = await cameraRef.current.takePictureAsync();
+      console.log("photo", photo);
+
+      let formData = new FormData();
+      formData.append("file", {
+        uri: photo.uri,
+        type: "image/jpeg", // or photo.type
+        name: "upload.jpg",
+      });
 
         fetch("http://118.138.85.230:8000/upload", {
             method: 'POST',
@@ -48,35 +47,39 @@ export default function CameraScreen() {
             console.log(data);
             setTranslatedText(data.translated);
         })
-        .catch(error => {
-            console.error("There was an error uploading the photo.", error);
+        .catch((error) => {
+          console.error("There was an error uploading the photo.", error);
         });
     }
   };
 
 
-return (
-  <View style={{ flex: 1, backgroundColor: 'rgba(255, 160, 160, 0.5)' }}>  
-    <Camera style={{ flex: 1 }} ref={cameraRef} />
+  return (
+    <View style={{ flex: 1, backgroundColor: "rgba(255, 160, 160, 0.5)" }}>
+      <Camera style={{ flex: 1 }} ref={cameraRef} />
 
-    <View
-      style={{
-        position: 'absolute',
-        bottom: 50,  // Adjusted to make space for the translated text
-        left: 0,
-        right: 0,
-        alignItems: 'center',
-      }}>
-      <TouchableOpacity onPress={captureImage}>
-        <Text style={{ fontSize: 18, color: 'white' }}>Capture</Text>
-      </TouchableOpacity>
+      <View
+        style={{
+          position: "absolute",
+          bottom: 50, // Adjusted to make space for the translated text
+          left: 0,
+          right: 0,
+          alignItems: "center",
+        }}
+      >
+        <TouchableOpacity onPress={captureImage}>
+          <Text style={{ fontSize: 18, color: "white" }}>Capture</Text>
+        </TouchableOpacity>
 
-      {/* Display the translated text below the Capture button */}
-      <TouchableOpacity onPress={() => setIsTextVisible(!isTextVisible)}>
-          {isTextVisible && <Text style={{ fontSize: 16, color: 'white', marginTop: 20 }}>{translatedText}</Text>}
-      </TouchableOpacity>
+        {/* Display the translated text below the Capture button */}
+        <TouchableOpacity onPress={() => setIsTextVisible(!isTextVisible)}>
+          {isTextVisible && (
+            <Text style={{ fontSize: 16, color: "white", marginTop: 20 }}>
+              {translatedText}
+            </Text>
+          )}
+        </TouchableOpacity>
+      </View>
     </View>
-  </View>
-);
-
+  );
 }
