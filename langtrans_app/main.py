@@ -11,6 +11,14 @@ from fastapi import HTTPException
 from fastapi import Body
 import pytesseract
 from pydantic import BaseModel
+from firebase_admin._auth_utils import UserNotFoundError
+import jwt
+from fastapi import Depends, HTTPException
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+import bcrypt
+
+
+
 
 class LoginData(BaseModel):
     email: str
@@ -40,16 +48,40 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+SECRET_KEY = "YOUR_SECRET_KEY"  # Change this to a random, secure key
+
 @app.post("/store-user-data/")
-def store_user_data(uid: str, email: str,password: str):
+def store_user_data(uid: str, email: str, password: str):
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
     db = firestore.client()
     user_ref = db.collection(u'users').document(uid)
     user_ref.set({
         u'email': email,
-        u'password': password
+        u'password': hashed_password
     })
     return {"status": "success"}
 
+@app.post("/token/")
+def generate_token(email: str, password: str):
+    # Fetch user data from Firestore based on email
+    db = firestore.client()
+    users_ref = db.collection(u'users')
+    query = users_ref.where(u'email', '==', email).stream()
+
+    user_data = None
+    for doc in query:
+        user_data = doc.to_dict()
+        break  # Assuming email is unique, so we break after the first match
+
+    if not user_data:
+        raise HTTPException(status_code=400, detail="User not found")
+
+    # Check password using bcrypt
+    if not bcrypt.checkpw(password.encode('utf-8'), user_data['password'].encode('utf-8')):
+        raise HTTPException(status_code=400, detail="Incorrect email or password")
+
+    token = jwt.encode({"email": email}, SECRET_KEY, algorithm="HS256")
+    return {"token": token}
 
 
 @app.post("/")
@@ -67,15 +99,17 @@ def sign_up(email: str = Body(...), password: str = Body(...)):
 
 @app.post("/login/")
 def login(data: LoginData):
-    hardcoded_email = "alee0050@student.monash.edu"
-    hardcoded_password = "testpassword"
-
-    if data.email != hardcoded_email or data.password != hardcoded_password:
+    try:
+        user_record = auth.get_user_by_email(data.email)
+        
+                
+        return {"message": "Email is valid. Password verification should be handled in the frontend."}
+    
+    except UserNotFoundError:
+        raise HTTPException(status_code=400, detail="User not found")
+    except ValueError:
         raise HTTPException(status_code=400, detail="Incorrect email or password")
-
-    return {"message": "Login successful!"}
-
-
+   
 @app.get("/test-firestore/")
 def test_firestore():
     try:
@@ -99,7 +133,7 @@ def verify_token(id_token: str):
 
 
 @app.post("/upload/")
-async def upload_image(file: UploadFile = File(...)):
+async def upload_image(uid: str, file: UploadFile = File(...)):
     image_stream = await file.read()
     image_np = np.fromstring(image_stream, np.uint8)
     image = cv2.imdecode(image_np, cv2.IMREAD_COLOR)
@@ -107,19 +141,19 @@ async def upload_image(file: UploadFile = File(...)):
     # Extract text from the image using OpenCV and Tesseract
     text = pytesseract.image_to_string(image)
     
-    # Translate the text (for this example, translating to English)
-    result = translate_text(text)
-    translated_text = result['translatedText']
+    # Save the image to Firebase Storage
+    bucket = storage.bucket()
+    blob = bucket.blob(f"{uid}/{file.filename}")
+    blob.upload_from_string(image_stream, content_type=file.content_type)
+    image_url = blob.public_url
+    
+    # Optionally, save the reference to Firestore
+    user_ref = db.collection(u'users').document(uid)
+    user_ref.update({
+        u'images': firestore.ArrayUnion([image_url])
+    })
 
-    # Store the original and translated text in Firestore
-    # doc_ref = db.collection(u'translations').add({
-    #     u'original': text,
-    #     u'translated': translated_text
-    # })
-
-    return {"original": text, "translated": translated_text}
-
-
+    return {"original": text, "image_url": image_url}
 
 # Initialize Google Translate
 def translate_text(

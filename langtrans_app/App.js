@@ -5,6 +5,9 @@ import axios from "axios";
 import LoginScreen from "./screens/Login"; // Import the login screen
 import CameraScreen from "./screens/Scan"; // Assuming you also have a camera screen
 import HomeScreen from "./screens/Home"; // Assuming you also have a camera screen
+
+// ... inside your handleLogin or handleSignUp function:
+
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -77,7 +80,6 @@ export default function App() {
     }
   };
 
-  
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">

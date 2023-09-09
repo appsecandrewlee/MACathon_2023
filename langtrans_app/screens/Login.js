@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Alert } from "react-native";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 
 import {
   StyleSheet,
@@ -13,21 +13,14 @@ import {
   TextInput,
 } from "react-native";
 
-export default function Example() {
+export default function Login() {
   const navigation = useNavigation();
+  const [uid, setUid] = useState(null);
+
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
-
-  const [message, setMessage] = useState("");
-
-  // useEffect(() => {
-  //   // Fetch data from FastAPI backend
-  //   fetch("http://localhost:8000/")  // This is the typical port for FastAPI apps
-  //     .then(response => response.json())
-  //     .then(data => setData(data));
-  // }, []);
 
   const handleSignUp = async () => {
     try {
@@ -36,6 +29,8 @@ export default function Example() {
         password: form.password,
       });
 
+      const user = auth().currentUser;
+      const token = await user.getIdToken(true);
       if (response.data && response.data.uid) {
         Alert.alert("Success!", "Account created successfully.");
       } else {
@@ -52,18 +47,39 @@ export default function Example() {
         email: form.email,
         password: form.password,
       });
+      showAlert();
+      navigation.navigate("Home");
+
+      console.log("Backend Response:", response.data); // Log the response
 
       if (response.data && response.data.message === "Login successful!") {
-        navigation.navigate('Home')
-        Alert.alert("Success!", "Logged in successfully.", [
-          { text: "OK", onPress: () => navigation.navigate('Home') },
-        ]);
+        navigation.navigate("Home");
+        const userUid = response.data.uid;
+
+        // Set UID to state
+        setUid(userUid);
+
+        // Save UID to local storage
+        localStorage.setItem("userUid", userUid);
       } else {
-        Alert.alert("Error", "Failed to log in.");
+        console.log("Login failed due to response:", response.data); // Log the failed response
+        Alert.alert("Error", "Failed to login.");
       }
     } catch (error) {
+      console.error("Error during login:", error); // Log the error
       Alert.alert("Error", error.message);
     }
+  };
+  const showAlert = () => {
+    Alert.alert("Success!", "Logged in successfully.", [
+      {
+        text: "OK",
+        onPress: () => {
+          console.log("Navigating to Home"); // Log before navigating
+          navigation.navigate("Home");
+        },
+      },
+    ]);
   };
 
   return (
