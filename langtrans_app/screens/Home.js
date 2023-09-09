@@ -1,5 +1,6 @@
 // HomeScreen.js
 import React from 'react';
+import axios from "axios";
 import { View, Text, SafeAreaView, ScrollView, TouchableHighlight, TouchableOpacity,  FlatList } from 'react-native';
 import { colors, commonStyles, spacing } from '../styles/styles';
 import { useNavigation } from '@react-navigation/native'
@@ -45,7 +46,7 @@ export default function MainScreen() {
                               key={index} 
                               style={[commonStyles.wordContainer, {backgroundColor: getRandomColor(pinks)}]}
                               onPress={() => {
-                                navigation.navigate('Definition', { translatedText: word });
+                                navigation.navigate('Definition', { originalText: word });
                               }}
                             >
                               <Text style={commonStyles.wordText}>{word}</Text>
