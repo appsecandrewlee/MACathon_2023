@@ -17,7 +17,7 @@ export default function SignupScreen({ navigation }) {
     password: "",
     confirmPassword: "",
   });
-
+  const [uid, setUid] = useState(null);
   const handleSignup = async () => {
     try {
       const response = await axios.post("http://118.138.85.230:8000/sign_up/", {
@@ -25,6 +25,7 @@ export default function SignupScreen({ navigation }) {
         password: form.password,
         preferred_language: form.preferred_language,
       });
+      console.log(form.email, form.password, form.preferred_language);
 
       if (
         response.data &&

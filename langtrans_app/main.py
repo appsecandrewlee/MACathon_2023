@@ -15,7 +15,7 @@ from firebase_admin._auth_utils import UserNotFoundError
 import jwt
 from fastapi import Depends, HTTPException
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-# import bcrypt
+import bcrypt
 
 
 
@@ -63,11 +63,15 @@ def store_user_data(uid: str, email: str, password: str):
 
 @app.post("/sign_up/")
 def sign_up(email: str = Body(...), password: str = Body(...), preferred_language: str = Body(...)):
+
     try:
+        print(preferred_language)
         user = auth.create_user(
             email=email,
             password=password
-        ) 
+        )
+        print(user)
+        store_user_data(uid=user.uid, email=email, password=password)
         return {"message": "Account created successfully", "uid": user.uid, "preferred_language": preferred_language}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -103,7 +107,7 @@ def login(data: LoginData):
     try:
         user_record = auth.get_user_by_email(data.email)
         
-        print(data)
+        print(user_record)
         return {"message": "Email is valid. Password verification should be handled in the frontend."}
     
     except UserNotFoundError:
