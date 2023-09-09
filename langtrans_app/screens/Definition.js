@@ -7,15 +7,16 @@ const Definition = ({ route }) => {
 
   const fetchTexts = async () => {
     try {
-
-      const word = translatedText;
-      const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`, {
-        method: 'GET', 
+        
+      const link = `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`
+      const word = originalText;
+      const response = await axios.get('http://118.138.85.230:8000/translate/', {
+        text: word
       });
 
       const data = await response.json();
-      setOriginalText(data.original);  
-      setTranslatedText(data.translated);  
+    //   setOriginalText(data.original);  
+    //   setTranslatedText(data.translated);  
     } catch (error) {
       console.error('Error fetching data:', error);
     }
