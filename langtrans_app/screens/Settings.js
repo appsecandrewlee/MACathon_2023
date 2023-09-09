@@ -6,7 +6,8 @@ import { colors, commonStyles } from '../styles/styles';
 import storageService from '../services/storageService'; // <- Import storageService
 import { clearUserData } from '../slices/userSlice.js';
 // Import your logout action
-import { logout } from '../redux/actions/userActions';
+import { setUserData, clearUserData } from '../slices/userSlice';
+
 
 export default function SettingsScreen() {
     const navigation = useNavigation();
