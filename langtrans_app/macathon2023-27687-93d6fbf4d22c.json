@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "macathon2023-27687",
+  "private_key_id": "93d6fbf4d22cdae28f7a32ac1023221e5792d343",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCc3za3tUHJ4Ncz\nYSTWyWT9u1/0gbTJWJzCuvV7wvH0E+BLJCp5fD74vu7SecUYp5D53qVrGPsBOPYl\nwMpF6Nkr4CpeowYvJwAs0Pq3IwIG4/L4HBfs5QgMsIhKbUDdfQamim1CAjUFYCem\nilCUYIiI6dYjgz+Bg/aXEj0vMGrv+yTqX1EvdlIP/JSVbInzoRntZXh21CapqlKD\nCTc8DFikKarwo42eiFAjfaef/Dt/djpp6hUkViJgfqGrYtcgAx6p2iBmKkFTIUNM\n4xSsjvlrdz8DTmebJKQ8S53kfcT2dbecgacyCoXeYBFOZQL5/bBvxgEaLJ0MEdWq\nOIBkO8BnAgMBAAECggEAChPbJwXM6AHfQ5OSwP2ZsElwinuVgXbzINSGKGEQqcix\nGLmGMriXU5qodB+SxkaMWv6vCzGOD5R5DxCuQCl5FqvFNi2+nBpHueJ10epPGysR\n8FdMiZpmu41jGuPD4JIe4EDjcDzYWI9YpeJlG6nwe36bSvK+imFPujh8KgfCYlkR\nwVJqlomozSMngdGnEcCeKdfJT5JeuDzx2NEsGf18323Rz8nj9ktAZ3uFMRVjy61G\nEoGmDS5vY4OU1zgHwRaKeJAoT6h8tgRa33MYJOlYeqO4Z+HGOmlhOgVigyVjw1Ro\nDZJ22KrLBfNaIT5+IYJNloka8yyM0YUISxYnb/DEEQKBgQDMnmrxcT97fg3oK4rJ\ntQswa+rSK+WA3P6c12MlxPSpSNJd1lRq4aaPeHC66Sj1+/eUZcyqifmZFwPWL1Rd\n3nOhm1swDL1OMo5wbEV1uzlg6JxINi2rS8TMoFo6D5SUgCehFDboI1Fkao4BFZC3\nb/dXaeAU874OyVuiouAofPdaHwKBgQDEQ3dUGxwq121TtWj0WzNZ+giRrNtzO626\net03EWGSccnM/fCSen7JyazNXwwqs/qEFSPam8Gn7WwBmKbT8dgHv2tMMbtZWqf7\naW4fJ7m8cH9PW7tiKKx85c1GF3AoNarI1TkUHdDxHDhrlcw+9gPdvsqrYA/+r5AN\nBtTZllBguQKBgBcISf9tgPjUopoctJ2p3F2R+De6KzZLKfnboNRyjBu2D7/yTURO\nrCIAK6hOcIbn2uGAZ/5WU5sw5QSqBTQfwyJQy33oITL5K+FpvpPXBEltRZI3TwK2\nH6vs7NsWP+JLXqqaDOgqeZH1EJD8rXKIju3vBAM3wJAHiGIRNWw5TNp/AoGAdHCa\ngVm8MmaxRDKi3CanpsBDCTqG0C0d+z8ds6gqPVopIeefLShjxJBUZ1v2ufchr+9i\n4DX8hQbFR4UrpR8czivxGrl+r5qrguugG/fTqEsOHSUNXUVIYKluSiFpt1Fvy8tF\nG/w8lG/rwViUXt5SmOKzF03c73t1eWUOLzGQ6nECgYANB3D4DHUcDqZG7fiE5tB+\nmT1VIAyjLVg1A5LajvmrAHLEqGVB1iD59fxGQhbEgnYOcRbdonIPp7iWfzVWpNz3\nnDCFz1mZ2hpfxz5C7ijxGLUCIXbuc2Ezm8tj8BfwzyzmkmZlKVK7SZHQsA8XKyfN\n8Klw3HflI4fz6d2wgJCMVw==\n-----END PRIVATE KEY-----\n",
+  "client_email": "lang-translate@macathon2023-27687.iam.gserviceaccount.com",
+  "client_id": "108869222426388017631",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/lang-translate%40macathon2023-27687.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
