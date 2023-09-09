@@ -9,6 +9,8 @@ import LinearGradient from "react-native-linear-gradient";
 
 const colors = {
   pink: "#FFB3E8",
+  bluereal: "#6ed3ff",
+  purple: '#bba0fa',
   blue: "#000000",
   // blue: '#2B2DA4',
   grey: "#F0F0F0",
@@ -143,8 +145,12 @@ const commonStyles = StyleSheet.create({
     alignSelf: "flex-start",
   },
 
+  spaceTini: {
+    marginVertical: 5,
+  },
+
   spaceSmall: {
-    marginVertical: 10,
+    marginVertical: 15,
   },
 
   spaceMedium: {
@@ -163,8 +169,24 @@ const commonStyles = StyleSheet.create({
 
   captionPink: {
     fontSize: 23,
-    fontWeight: "700",
+    fontWeight: "800",
     color: colors.pink,
+    // marginBottom: 12,
+    textAlign: "left",
+  },
+
+  captionPurple: {
+    fontSize: 23,
+    fontWeight: "800",
+    color: colors.purple,
+    // marginBottom: 12,
+    textAlign: "left",
+  },
+
+  captionBlue: {
+    fontSize: 23,
+    fontWeight: "800",
+    color: colors.bluereal,
     // marginBottom: 12,
     textAlign: "left",
   },
@@ -174,7 +196,7 @@ const commonStyles = StyleSheet.create({
     fontWeight: "500",
     color: colors.text,
     textAlign: "center",
-    marginBottom: 36,
+    marginBottom: spacing.small,
   },
 
   body: {
@@ -219,7 +241,7 @@ const commonStyles = StyleSheet.create({
   },
   
   inputControl: {
-    height: 44,
+    height: 42,
     backgroundColor: "#fff",
     paddingHorizontal: 16,
     borderRadius: 12,
@@ -287,13 +309,39 @@ const commonStyles = StyleSheet.create({
   },
 
   collectionContainer: {
-    backgroundColor: colors.blue2,
+    backgroundColor: colors.black,
     paddingVertical: 20, // Adjust vertical padding as needed
     // paddingHorizontal: 26, // Adjust horizontal padding as needed
     // margin: 5,
     padding: 16,
     // marginBottom: 16,
     borderRadius: 8,
+  },
+
+  profileImage: {
+    width: 120,
+    height: 120,
+    borderRadius: 60, // Half of the width and height to create a circle
+  },
+
+  profileHeader: {
+    alignItems: 'center',
+    paddingTop: 20,
+  },
+
+  settingItem: {
+    paddingVertical: 20,
+    paddingHorizontal: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+  settingText: {
+    fontSize: 16,
+  },
+
+  settingContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
   },
 });
 

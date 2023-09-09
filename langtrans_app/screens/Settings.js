@@ -16,21 +16,33 @@ export default function SettingsScreen() {
   
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
-      <View style={styles.container}>
-        <View style={styles.profileHeader}>
+
+      <View style={commonStyles.container}>
+        {/* <View style={commonStyles.profileHeader}>
           <Image
-            style={styles.profileImage}
+            style={commonStyles.profileImage}
             source={require('../assets/kirby.webp')} 
             resizeMode="cover"
           />
-        </View>
+        </View> */}
+        <View style={commonStyles.header}>
+        <View style={commonStyles.profileHeader}>
+          <Image
+            style={commonStyles.profileImage}
+            source={require('../assets/kirby.webp')} 
+            resizeMode="cover"
+          />
+          <View style={commonStyles.spaceSmall}></View>
+        <Text style={[commonStyles.titleBlack, {marginBottom: 6}]}>Chloe Nguyen</Text>
+      </View>
+      </View>
         <View style={commonStyles.spaceMedium}></View>
         <FlatList
           data={items}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <TouchableOpacity 
-              style={styles.settingItem}
+              style={commonStyles.settingItem}
               onPress={() => {
                 if (item.title === 'Log Out') {
                   // Perform any logout logic here (e.g., clear authentication state)

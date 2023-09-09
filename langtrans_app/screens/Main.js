@@ -1,7 +1,8 @@
 import React from 'react';
 import { StyleSheet, SafeAreaView, View, Text, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
+import { Ionicons } from '@expo/vector-icons';
+import { colors, commonStyles, spacing } from '../styles/styles';
 // NAV TAB BAR
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
@@ -14,10 +15,40 @@ const Tab = createBottomTabNavigator();
 
 export default function MainScreen() {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-      <Tab.Screen name="Scan" component={ScanScreen} options={{ headerShown: false }} />
-      <Tab.Screen name="Settings" component={SettingsScreen} options={{ headerShown: false }}/>
+    <Tab.Navigator
+      tabBarStyle={{ backgroundColor: colors.pink }} 
+      // tabBarOptions={{
+      //   tabBarActiveTintColor: colors.white, // Change the active tab item color
+      //   tabBarInactiveTintColor: 'gray', // Change the inactive tab item color
+      // }}
+    >
+      <Tab.Screen 
+        name="Home" 
+        component={HomeScreen} 
+        options={{ 
+          headerShown: false, 
+          tabBarLabel: 'Home',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="home" color={color} size={size} /> // Use Ionicons as an example
+          ), }} />
+      <Tab.Screen 
+        name="Scan" 
+        component={ScanScreen} 
+        options={{ 
+          headerShown: false, 
+          tabBarLabel: 'Scan',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="scan-outline" color={color} size={size} /> // Use Ionicons as an example
+          ), }} />
+      <Tab.Screen 
+        name="Settings" 
+        component={SettingsScreen} 
+        options={{ 
+          headerShown: false, 
+          tabBarLabel: 'Settings',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="cog-outline" color={color} size={size} /> // Use Ionicons as an example
+          ), }} />
     </Tab.Navigator>
   );
 }
