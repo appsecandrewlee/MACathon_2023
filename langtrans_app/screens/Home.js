@@ -1,77 +1,96 @@
+// HomeScreen.js
 import React from 'react';
-import { StyleSheet, SafeAreaView, View, Text, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-export default function HomeScreen() {
-    const navigation = useNavigation();
-  return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#e8ecf4' }}>
-      <View style={styles.container}>
+import { View, Text, SafeAreaView, ScrollView, TouchableHighlight, FlatList } from 'react-native';
+import { colors, commonStyles, spacing } from '../styles/styles';
 
-        {/* Title */}
-        <View style={styles.header}>
-          <Text style={styles.title}>
-            Welcome to <Text style={{ color: '#c90661' }}>LangTransApp</Text>
-          </Text>
-        </View>
+export default function MainScreen() {
 
-        {/* Placeholder Text */}
-        <View style={styles.placeholderContainer}>
-          <Text style={styles.placeholderText}>Your Content Goes Here</Text>
-        </View>
+    const wordList = ['Apple','Banana','Cucumber','Durian','Eggplant','Fig','Grape','Honeydew', 'Icaco', 'Jackfruit', 'Kiwi', 'Lime'];
+    const slangList = ['Woolies','Mozzie','Barbie','No worries','Too easy','Mate','Arvo'];
+    const collectionList = ['Programming', 'Supermaket', 'Gym'];
 
-        {/* Navigation Bar */}
-        <View style={styles.navBar}>
-          <TouchableOpacity onPress={() => {}}>
-            <Text style={styles.navText}>Home</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Camera')}>
-      <Text style={styles.navText}>Scan</Text>
-    </TouchableOpacity>
-          <TouchableOpacity onPress={() => {}}>
-            <Text style={styles.navText}>Profile</Text>
-          </TouchableOpacity>
-        </View>
+    const pinks = ['#FF80C0', '#FF63B8', '#FF4D9D', '#FF3B9F', '#FF1287'];
+    const purples = ['#D06EFF', '#B13BFF', '#9A00FF', '#8800CC', '#660099'];
+    // const blues = ['#007ACC', '#004488', '#33B5E5', '#66C2FF', '#99D6FF'];
 
-      </View>
-    </SafeAreaView>
+    
+
+
+    const getRandomColor = (colors) => {
+        const randomIndex = Math.floor(Math.random() * colors.length);
+        return colors[randomIndex];
+    };
+
+
+    return (
+        <SafeAreaView style={{ flex: 1, backgroundColor: colors.grey }}>
+
+            <ScrollView>
+                
+                {/* GREETINGS --------------------------------------------------------------------------*/}
+                <View style={commonStyles.header}>
+                    <Text style={[commonStyles.titleBlack, {marginBottom: 6}]}>Howdy, Chloe!</Text>
+                </View>
+                <View style={commonStyles.spaceSmall}></View>
+
+                    {/* TODAY --------------------------------------------------------------------------*/}
+                    <View style={commonStyles.container}>
+                        <View style={commonStyles.sectionBlack}>
+                            <Text style={commonStyles.captionPink}>{wordList.length} new words today.</Text>
+                            <Text style={commonStyles.captionPink}>Go you 🏅</Text>
+                        </View>
+                        <View style={[commonStyles.wordListContainer,{paddingHorizontal: 10}]}>
+                            {wordList.map((word, index) => (
+                                <View key={index} style={[commonStyles.wordContainer,{backgroundColor: getRandomColor(pinks)}]}>
+                                <Text style={commonStyles.wordText}>{word}</Text>
+                                </View>
+                            ))}
+                        </View>
+                    </View>
+                    
+                    {/* SLANGS --------------------------------------------------------------------------*/}
+                    <View style={commonStyles.containerVertical}>
+                        <View style={[commonStyles.sectionBlack,{margin: spacing.large}]}>
+                            <Text style={commonStyles.captionPink}>Aussie slangs?</Text>
+                            <Text style={commonStyles.captionPink}>Too easy 🥸</Text>
+                        </View>
+                        <ScrollView
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            contentContainerStyle={commonStyles.expandContainer}
+                            style={{paddingHorizontal: 10}}
+                            >
+                            {slangList.map((word, index) => (
+                                <View key={index} style={[commonStyles.wordContainer,{backgroundColor: getRandomColor(purples)}]}>
+                                <Text style={commonStyles.wordText}>{word}</Text>
+                                </View>
+                            ))}
+                        </ScrollView>
+                    </View>
+
+                    {/* COLLECTIONS --------------------------------------------------------------------------*/}
+                    <View style={commonStyles.container}>
+                        <View style={commonStyles.sectionBlack}>
+                            <Text style={commonStyles.captionPink}>My collections 📚</Text>
+                        </View>
+                        <View style={[commonStyles.collectionContainer,{marginHorizontal: spacing.medium}]}>
+                                <Text style={commonStyles.wordText}>ALL</Text>
+                        </View>
+                        <FlatList
+                        data={collectionList}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={({ item, index }) => (
+                            <View style={[commonStyles.collectionContainer, { marginHorizontal: spacing.medium, backgroundColor: index % 2 === 0 ? colors.blue1 : colors.blue2 }]}>
+                            <Text style={commonStyles.wordText}>{item}</Text>
+                            </View>
+                        )}
+                        />
+
+                    </View>
+                    <View style={commonStyles.spaceLarge}></View>
+
+            </ScrollView>
+            
+        </SafeAreaView>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 24,
-  },
-  header: {
-    marginTop: 36,
-  },
-  title: {
-    fontSize: 27,
-    fontWeight: '700',
-    color: '#1d1d1d',
-    marginBottom: 6,
-    textAlign: 'center',
-  },
-  placeholderContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  placeholderText: {
-    fontSize: 18,
-    color: '#1d1d1d',
-    textAlign: 'center',
-  },
-  navBar: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: 15,
-    borderTopWidth: 1,
-    borderColor: '#c90661',
-  },
-  navText: {
-    fontSize: 17,
-    fontWeight: '600',
-    color: '#222',
-  },
-});
+};

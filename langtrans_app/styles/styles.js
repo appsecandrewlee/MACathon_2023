@@ -13,6 +13,16 @@ const colors = {
   // blue: '#2B2DA4',
   grey: "#F0F0F0",
   text: "#FFFFFF",
+  pink: "#FFB3E8",
+  blue: "#000000",
+  blue1: "#0942bd",
+  blue2: "#082178",
+  // blue: '#2B2DA4',
+  grey: "#F0F0F0",
+  darkgrey: "#222222",
+  text: "#FFFFFF",
+  black: "#000000",
+  white: "#FFFFFF",
   // primaryGradient: ['#AA076B', '#61045F'],
 };
 
@@ -51,6 +61,13 @@ const commonStyles = StyleSheet.create({
     flexBasis: 0,
   },
 
+  containerVertical: {
+    paddingVertical: spacing.large,
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 0,
+  },
+
   header: {
     marginVertical: 36,
   },
@@ -83,12 +100,85 @@ const commonStyles = StyleSheet.create({
     textAlign: "center",
   },
 
+  titleBlack: {
+    fontSize: 27,
+    fontWeight: "700",
+    color: colors.black,
+    marginBottom: 50,
+    textAlign: "center",
+  },
+
+  captionContainer: {
+    flex: 0.8,
+  },
+
+  captionBlack: {
+    fontSize: 23,
+    fontWeight: "700",
+    color: colors.black,
+    marginTop: 50,
+    textAlign: "left",
+  },
+
+  headingBlack: {
+    fontSize: 23,
+    fontWeight: "700",
+    color: colors.black,
+    marginTop: spacing.large,
+    textAlign: "left",
+  },
+
+  wordListContainer: {
+    flexDirection: "row", // Horizontal layout
+    flexWrap: "wrap", // Allow words to wrap to the next row
+    justifyContent: "left", // Center items horizontally (optional)
+  },
+
+  wordContainer: {
+    backgroundColor: "black",
+    paddingVertical: 10, // Adjust vertical padding as needed
+    paddingHorizontal: 18, // Adjust horizontal padding as needed
+    margin: 5,
+    borderRadius: 8,
+    alignSelf: "flex-start",
+  },
+
+  spaceSmall: {
+    marginVertical: 10,
+  },
+
+  spaceMedium: {
+    marginVertical: 30,
+  },
+
+  spaceLarge: {
+    marginVertical: 50,
+  },
+
+  wordText: {
+    color: "white",
+    fontWeight: "700",
+    fontSize: 16,
+  },
+
+  captionPink: {
+    fontSize: 23,
+    fontWeight: "700",
+    color: colors.pink,
+    // marginBottom: 12,
+    textAlign: "left",
+  },
+
   subtitle: {
     fontSize: 15,
     fontWeight: "500",
     color: colors.text,
     textAlign: "center",
     marginBottom: 36,
+  },
+
+  body: {
+    paddingHorizontal: 8,
   },
 
   form: {
@@ -121,6 +211,13 @@ const commonStyles = StyleSheet.create({
     marginBottom: 8,
   },
 
+  inputLabelBlack: {
+    fontSize: 17,
+    fontWeight: '600',
+    color: colors.black,
+    marginBottom: 8,
+  },
+  
   inputControl: {
     height: 44,
     backgroundColor: "#fff",
@@ -177,6 +274,27 @@ const commonStyles = StyleSheet.create({
   //   fontSize: 16,
   //   marginBottom: spacing.medium,
   // },
+  sectionBlack: {
+    backgroundColor: colors.black,
+    padding: 24,
+    marginBottom: 16,
+    borderRadius: 8,
+  },
+
+  expandContainer: {
+    paddingLeft: spacing.large, // Small left margin
+    paddingRight: 0, // No padding on the right, allowing overflow
+  },
+
+  collectionContainer: {
+    backgroundColor: colors.blue2,
+    paddingVertical: 20, // Adjust vertical padding as needed
+    // paddingHorizontal: 26, // Adjust horizontal padding as needed
+    // margin: 5,
+    padding: 16,
+    // marginBottom: 16,
+    borderRadius: 8,
+  },
 });
 
 export { commonStyles, colors, fonts, spacing, borderRadius, boxShadow };
