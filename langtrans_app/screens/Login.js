@@ -52,7 +52,9 @@ export default function Example() {
       });
 
       if (response.data && response.data.message === "Login successful!") {
-        Alert.alert("Success!", "Logged in successfully.");
+        Alert.alert("Success!", "Logged in successfully.", [
+          { text: "OK", onPress: () => navigation.navigate("Home") },
+        ]);
       } else {
         Alert.alert("Error", "Failed to log in.");
       }
