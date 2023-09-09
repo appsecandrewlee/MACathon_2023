@@ -7,6 +7,8 @@ import LoginScreen from "./screens/Login"; // Import the login screen
 import CameraScreen from "./screens/Scan"; // Assuming you also have a camera screen
 import MainScreen from "./screens/Main"; // Assuming you also have a camera screen
 import ProfileScreen from "./screens/Settings"; // Assuming you also have a camera screen
+import Definition from './screens/Definition'; 
+
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -98,6 +100,7 @@ export default function App() {
           options={{ headerShown: false }}
         />
         {/* <Stack.Screen name="Camera" component={CameraScreen} options={{ title: 'Capture Image' }} /> */}
+        <Stack.Screen name="Definition" component={Definition} options={{ title: 'Definition' }} />
         {/* Add more screens as needed */}
       </Stack.Navigator>
     </NavigationContainer>

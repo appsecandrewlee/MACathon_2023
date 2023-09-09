@@ -1,12 +1,15 @@
-import React, { useState, useRef, useEffect } from "react";
-import { Text, View, TouchableOpacity } from "react-native";
-import { Camera } from "expo-camera";
+import React, { useState, useRef, useEffect } from 'react';
+import { Text, View, TouchableOpacity } from 'react-native';
+import { Camera } from 'expo-camera';
+import { useNavigation } from '@react-navigation/native';
 
 export default function CameraScreen() {
   const [hasPermission, setHasPermission] = useState(null);
   const cameraRef = useRef(null);
   const [translatedText, setTranslatedText] = useState("");
   const [isTextVisible, setIsTextVisible] = useState(true);
+  const navigation = useNavigation();
+
 
   useEffect(() => {
     (async () => {
@@ -24,6 +27,9 @@ export default function CameraScreen() {
   }
 
   const captureImage = async () => {
+
+    console.log("Capture button pressed");
+
     if (cameraRef.current) {
       let photo = await cameraRef.current.takePictureAsync();
       console.log("photo", photo);
@@ -36,6 +42,7 @@ export default function CameraScreen() {
       });
 
         fetch("http://118.138.85.230:8000/upload", {
+        fetch("http://118.138.85.230:8000/upload", {
             method: 'POST',
             body: formData,
             headers: {
@@ -45,7 +52,11 @@ export default function CameraScreen() {
         .then(response => response.json())
         .then(data => {
             console.log(data);
+            console.log("Server Response:", data);
             setTranslatedText(data.translated);
+
+            console.log("Navigating to Definition");
+            navigation.navigate('Definition', { translatedText: data.translated });
         })
         .catch((error) => {
           console.error("There was an error uploading the photo.", error);
@@ -71,15 +82,18 @@ export default function CameraScreen() {
           <Text style={{ fontSize: 18, color: "white" }}>Capture</Text>
         </TouchableOpacity>
 
-        {/* Display the translated text below the Capture button */}
-        <TouchableOpacity onPress={() => setIsTextVisible(!isTextVisible)}>
-          {isTextVisible && (
-            <Text style={{ fontSize: 16, color: "white", marginTop: 20 }}>
-              {translatedText}
-            </Text>
-          )}
-        </TouchableOpacity>
-      </View>
+      {/* Display the translated text below the Capture button */}
+      <TouchableOpacity 
+        onPress={() => {
+          navigation.navigate('Definition')
+          setIsTextVisible(!isTextVisible);
+        }}
+      >
+        {isTextVisible && <Text style={{ fontSize: 16, color: 'white', marginTop: 20 }}>{translatedText}</Text>}
+      </TouchableOpacity>
+
     </View>
-  );
+  </View>
+);
+
 }
