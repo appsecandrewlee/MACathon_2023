@@ -343,6 +343,7 @@ const commonStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  
 });
 
 export { commonStyles, colors, fonts, spacing, borderRadius, boxShadow };

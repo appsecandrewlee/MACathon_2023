@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { SelectList } from 'react-native-dropdown-select-list';
 import { colors, commonStyles } from '../styles/styles';
 import {
   StyleSheet,
@@ -30,6 +31,23 @@ export default function SignupScreen({navigation}) {
     password: '',
     confirmPassword: '',
   });
+
+  const [selected, setSelected] = React.useState("");
+  
+  const languages = [
+      {key:'1', value:'Chinese (Simplified)'},
+      {key:'2', value:'Chinese (Traditional)'},
+      {key:'3', value:'Danish'},
+      {key:'4', value:'German'},
+      {key:'5', value:'Korea'},
+      {key:'6', value:'Hindu'},
+      {key:'7', value:'Indonesian'},
+      {key:'8', value:'Japanese'},
+      {key:'9', value:'Korean'},
+      {key:'10', value:'Norwegian'},
+      {key:'11', value:'Portugese'},
+      {key:'12', value:'Vietnamese'},
+  ]
   
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.blue }}>
@@ -56,12 +74,16 @@ export default function SignupScreen({navigation}) {
 
           <View style={commonStyles.input}>
             <Text style={commonStyles.inputLabel}>Language</Text>
-            <TextInput
-              onChangeText={language => setForm({ ...form, language })}
-              placeholder="Chinese"
-              placeholderTextColor="#6b7280"
-              style={commonStyles.inputControl}
-              value={form.language}
+            <SelectList 
+                setSelected={(val) => setSelected(val)} 
+                data={languages} 
+                save="value"
+                boxStyles={{backgroundColor: "#fff"}}
+                dropdownStyles={{backgroundColor: "#fff"}}
+                placeholder="Chinese (Simplified)"
+                placeholderTextColor="#6b7280"
+                value={form.language}
+                inputStyles={{fontSize: 15,fontWeight: "500", color: '#333'}}
             />
           </View>
 
@@ -129,7 +151,7 @@ export default function SignupScreen({navigation}) {
             </Text>
           </TouchableOpacity>
 
-          <View style={commonStyles.spaceLarge}></View>
+          <View style={commonStyles.spaceSmall}></View>
 
         </View>
 
