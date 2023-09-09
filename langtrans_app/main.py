@@ -9,7 +9,7 @@ from firebase_admin import credentials, firestore, initialize_app
 from firebase_admin import auth
 from fastapi import HTTPException
 from fastapi import Body
-
+import pytesseract
 from pydantic import BaseModel
 
 class LoginData(BaseModel):
@@ -104,18 +104,18 @@ async def upload_image(file: UploadFile = File(...)):
     image_np = np.fromstring(image_stream, np.uint8)
     image = cv2.imdecode(image_np, cv2.IMREAD_COLOR)
     
-    # Extract text from the image using OpenCV and Tesseract (you'll need additional configurations here)
-    # text = ...
+    # Extract text from the image using OpenCV and Tesseract
+    text = pytesseract.image_to_string(image)
     
     # Translate the text (for this example, translating to English)
-    result = translate_client.translate(text, target_language="en")
+    result = translate_text(text)
     translated_text = result['translatedText']
 
     # Store the original and translated text in Firestore
-    doc_ref = db.collection(u'translations').add({
-        u'original': text,
-        u'translated': translated_text
-    })
+    # doc_ref = db.collection(u'translations').add({
+    #     u'original': text,
+    #     u'translated': translated_text
+    # })
 
     return {"original": text, "translated": translated_text}
 
@@ -128,7 +128,7 @@ def translate_text(
     """Translating Text."""
 
     client = translate.TranslationServiceClient()
-
+    original_language = detect_language(text)
     location = "global"
 
     parent = f"projects/{project_id}/locations/{location}"
@@ -142,7 +142,7 @@ def translate_text(
             "contents": [text],
             "mime_type": "text/plain",  # mime types: text/plain, text/html
             "source_language_code": "en-US",
-            "target_language_code": "fr",
+            "target_language_code": "en-US",
         }
     )
 
