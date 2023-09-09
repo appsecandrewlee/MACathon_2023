@@ -49,13 +49,14 @@ app.add_middleware(
 SECRET_KEY = "YOUR_SECRET_KEY"  # Change this to a random, secure key
 
 @app.post("/store-user-data/")
-def store_user_data(uid: str, email: str, password: str):
+def store_user_data(uid: str, email: str, password: str,preferred_language:str):
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
     db = firestore.client()
     user_ref = db.collection(u'users').document(uid)
     user_ref.set({
         u'email': email,
-        u'password': hashed_password
+        u'password': hashed_password,
+        u'preferred_language': preferred_language
     })
     return {"status": "success"}
 
@@ -71,6 +72,7 @@ def sign_up(email: str = Body(...), password: str = Body(...), preferred_languag
         return {"message": "Account created successfully", "uid": user.uid, "preferred_language": preferred_language}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
 
 
 @app.post("/token/")
