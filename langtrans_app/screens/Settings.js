@@ -24,6 +24,7 @@ export default function SettingsScreen() {
             resizeMode="cover"
           />
         </View>
+        <View style={commonStyles.spaceMedium}></View>
         <FlatList
           data={items}
           keyExtractor={(item) => item.id}
@@ -37,7 +38,7 @@ export default function SettingsScreen() {
                   navigation.navigate('Login'); // 'Login' should match the name of your LoginScreen component in your navigation stack
                 }
               }}>
-                <Text style={styles.settingText}>{item.title}</Text>
+                <Text style={commonStyles.inputLabelBlack}>{item.title}</Text>
             </TouchableOpacity>
           )}
         />

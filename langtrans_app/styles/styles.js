@@ -194,6 +194,13 @@ const commonStyles = StyleSheet.create({
     color: colors.text,
     marginBottom: 8,
   },
+
+  inputLabelBlack: {
+    fontSize: 17,
+    fontWeight: '600',
+    color: colors.black,
+    marginBottom: 8,
+  },
   
   inputControl: {
     height: 44,
@@ -231,7 +238,7 @@ const commonStyles = StyleSheet.create({
 
   sectionBlack: {
     backgroundColor: colors.black,
-    padding: 16,
+    padding: 24,
     marginBottom: 16,
     borderRadius: 8,
   },

@@ -39,7 +39,7 @@ export default function MainScreen() {
                             <Text style={commonStyles.captionPink}>{wordList.length} new words today.</Text>
                             <Text style={commonStyles.captionPink}>Go you 🏅</Text>
                         </View>
-                        <View style={commonStyles.wordListContainer}>
+                        <View style={[commonStyles.wordListContainer,{paddingHorizontal: 10}]}>
                             {wordList.map((word, index) => (
                                 <View key={index} style={[commonStyles.wordContainer,{backgroundColor: getRandomColor(pinks)}]}>
                                 <Text style={commonStyles.wordText}>{word}</Text>
@@ -58,6 +58,7 @@ export default function MainScreen() {
                             horizontal
                             showsHorizontalScrollIndicator={false}
                             contentContainerStyle={commonStyles.expandContainer}
+                            style={{paddingHorizontal: 10}}
                             >
                             {slangList.map((word, index) => (
                                 <View key={index} style={[commonStyles.wordContainer,{backgroundColor: getRandomColor(purples)}]}>
@@ -72,18 +73,18 @@ export default function MainScreen() {
                         <View style={commonStyles.sectionBlack}>
                             <Text style={commonStyles.captionPink}>My collections 📚</Text>
                         </View>
-                        <View style={commonStyles.collectionContainer}>
+                        <View style={[commonStyles.collectionContainer,{marginHorizontal: spacing.medium}]}>
                                 <Text style={commonStyles.wordText}>ALL</Text>
                         </View>
                         <FlatList
-  data={collectionList}
-  keyExtractor={(item, index) => index.toString()}
-  renderItem={({ item, index }) => (
-    <View style={[commonStyles.collectionContainer, { backgroundColor: index % 2 === 0 ? colors.blue1 : colors.blue2 }]}>
-      <Text style={commonStyles.wordText}>{item}</Text>
-    </View>
-  )}
-/>
+                        data={collectionList}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={({ item, index }) => (
+                            <View style={[commonStyles.collectionContainer, { marginHorizontal: spacing.medium, backgroundColor: index % 2 === 0 ? colors.blue1 : colors.blue2 }]}>
+                            <Text style={commonStyles.wordText}>{item}</Text>
+                            </View>
+                        )}
+                        />
 
                     </View>
                     <View style={commonStyles.spaceLarge}></View>
