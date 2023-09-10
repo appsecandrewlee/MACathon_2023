@@ -67,9 +67,17 @@ export default function MainScreen() {
                             style={{paddingHorizontal: 10}}
                             >
                             {slangList.map((word, index) => (
-                                <View key={index} style={[commonStyles.wordContainer,{backgroundColor: getRandomColor(purples)}]}>
+                                <TouchableOpacity 
+                                  key={index} 
+                                  style={[commonStyles.wordContainer,{backgroundColor: getRandomColor(purples)}]}
+                                  onPress={() => {
+                                    console.log("Word clicked: ", word);
+                                    navigation.navigate('Definition', { originalText: word });
+                                  }}
+                                  
+                                >
                                 <Text style={commonStyles.wordText}>{word}</Text>
-                                </View>
+                                </TouchableOpacity>
                             ))}
                         </ScrollView>
                     </View>

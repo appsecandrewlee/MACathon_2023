@@ -7,31 +7,40 @@ export default function Results({ route }) {
   const { translatedText, capturedText } = route.params;
 
   const handleWordClick = (word) => {
-    navigation.navigate('Definition', { word });
+    navigation.navigate('Definition', { originalText: word });
   };
 
   const renderClickableText = (text) => {
     if (!text) return <Text>No text available</Text>;
   
-    return text.split(' ').map((word, index) => (
-      <TouchableOpacity key={index} onPress={() => handleWordClick(word)}>
-        <Text style={styles.clickableWord}>{word + ' '}</Text>
-      </TouchableOpacity>
-    ));
+    const words = text.split(' ');
+    const wordElements = [];
+  
+    for (let i = 0; i < words.length; i++) {
+      const word = words[i];
+      wordElements.push(
+        <TouchableOpacity key={i} onPress={() => handleWordClick(word)}>
+          <Text style={styles.clickableWord}>{word + ' '}</Text>
+        </TouchableOpacity>
+      );
+    }
+  
+    return wordElements;
   };
+  
   
 
   return (
     <ScrollView style={styles.container}>
       <View>
-        <Text style={styles.title}>Captured Text:</Text>
+        <Text style={styles.title}>Captured Text</Text>
         <View style={styles.textContainer}>
           {renderClickableText(capturedText)}
         </View>
 
         <View style={styles.line}></View>
 
-        <Text style={styles.title}>Translated Text:</Text>
+        <Text style={styles.title}>Translated Text</Text>
         <View style={styles.textContainer}>
           {renderClickableText(translatedText)}
         </View>
