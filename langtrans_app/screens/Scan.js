@@ -27,8 +27,8 @@ export default function CameraScreen() {
   }
 
 
-    const captureImage = async () => {
-      const uid = await storageService.getUID();
+  const captureImage = async () => {
+    const uid = await storageService.getUID();
     console.log("Capture button pressed");
 
     if (cameraRef.current) {
@@ -42,23 +42,25 @@ export default function CameraScreen() {
         name: "upload.jpg",
       });
 
-      formData.append("uid", uid)
+      console.log(uid);
+      formData.append("uid", uid);
 
-        fetch("http://118.138.85.230:8000/upload/", {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'content-type': 'multipart/form-data',
-            },
-        })
+
+      fetch("http://118.138.85.230:8000/upload/", {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'content-type': 'multipart/form-data',
+        },
+      })
         .then(response => response.json())
         .then(data => {
-            console.log(data);
-            console.log("Server Response:", data);
-            setTranslatedText(data.translated);
+          console.log(data);
+          console.log("Server Response:", data);
+          setTranslatedText(data.translated);
 
-            console.log("Navigating to Definition");
-            navigation.navigate('Definition', { translatedText: data.original });
+          console.log("Navigating to Definition");
+          navigation.navigate('Definition', { translatedText: data.original });
         })
         .catch((error) => {
           console.error("There was an error uploading the photo.", error);
@@ -84,18 +86,18 @@ export default function CameraScreen() {
           <Text style={{ fontSize: 18, color: "white" }}>Capture</Text>
         </TouchableOpacity>
 
-      {/* Display the translated text below the Capture button */}
-      <TouchableOpacity 
-        onPress={() => {
-          navigation.navigate('Definition')
-          setIsTextVisible(!isTextVisible);
-        }}
-      >
-        {isTextVisible && <Text style={{ fontSize: 16, color: 'white', marginTop: 20 }}>{translatedText}</Text>}
-      </TouchableOpacity>
+        {/* Display the translated text below the Capture button */}
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Definition')
+            setIsTextVisible(!isTextVisible);
+          }}
+        >
+          {isTextVisible && <Text style={{ fontSize: 16, color: 'white', marginTop: 20 }}>{translatedText}</Text>}
+        </TouchableOpacity>
 
+      </View>
     </View>
-  </View>
-);
+  );
 
 }

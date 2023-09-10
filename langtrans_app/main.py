@@ -18,6 +18,11 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 import bcrypt
 from fastapi.security import OAuth2PasswordBearer
 
+from fastapi.security import OAuth2PasswordRequestForm
+from fastapi import Depends
+from passlib.context import CryptContext
+
+
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/token/")
 
 class LoginData(BaseModel):
@@ -108,9 +113,9 @@ def generate_token(email: str, password: str):
 def login(data: LoginData):
     try:
         user_record = auth.get_user_by_email(data.email)
-        
+        token = jwt.encode({"email": data.email}, SECRET_KEY, algorithm="HS256")
         print(user_record)
-        return {"message": "Email is valid. Password verification should be handled in the frontend."}
+        return {"data": user_record, "message": "Login successful.", "token": token}
     
     except UserNotFoundError:
         raise HTTPException(status_code=400, detail="User not found")
@@ -144,6 +149,7 @@ async def upload_image(uid: str = Form(...), file: UploadFile = File(...)):
     image_np = np.fromstring(image_stream, np.uint8)
     image = cv2.imdecode(image_np, cv2.IMREAD_COLOR)
     
+    print(uid)
     # Extract text from the image using OpenCV and Tesseract
     text = pytesseract.image_to_string(image)
     print(text)
@@ -159,16 +165,7 @@ async def upload_image(uid: str = Form(...), file: UploadFile = File(...)):
     # user_ref.update({
     #     u'images': firestore.ArrayUnion([image_url])
     # })
-    
-    print("Received request")
-    print(file)
-    image_stream = await file.read()
-    image_np = np.fromstring(image_stream, np.uint8)
-    image = cv2.imdecode(image_np, cv2.IMREAD_COLOR)
-    
-    # Extract text from the image using OpenCV and Tesseract
-    text = pytesseract.image_to_string(image)
-    print(text)
+    print(f"Text {text}")
     
     user_ref = db.collection(u'users').document(uid)
     user_data = user_ref.get()
@@ -179,8 +176,13 @@ async def upload_image(uid: str = Form(...), file: UploadFile = File(...)):
         raise HTTPException(status_code=404, detail="User not found in Firestore")
     
     # Translate the text (for this example, translating to English)
-    result = translate_text(text, preferred_language )
-    translated_text = result['translatedText']
+    result = translate_text(text, preferred_language)
+
+    print()
+    for translation in result.translations:
+        print(f"Translated text: {translation.translated_text}")
+        translated_text = translation.translated_text
+
 
     # Store the original and translated text in Firestore
     # doc_ref = db.collection(u'translations').add({
@@ -189,7 +191,7 @@ async def upload_image(uid: str = Form(...), file: UploadFile = File(...)):
     # })
     print("Processed image")
 
-    return {"original": text, "translated": translate_text}
+    return {"original": text, "translated": translated_text}
 
 @app.get("/translate/")
 def translate_api(text: str):

@@ -42,44 +42,40 @@ export default function Login() {
         email: form.email,
         password: form.password,
       });
-      showAlert();
-      navigation.navigate("Main");
 
-      console.log("Backend Response:", response.data); // Log the response
+      console.log("Backend Response:", response.data); 
 
-      if (response.data && response.data.message === "Login successful!") {
-        const userUid = response.data.uid;
+      if (response.data && response.data.message == "Login successful.") {
+        console.log(response.data.data._data.localId)
+        const userUid = response.data.data._data.localId;
+        const userToken = response.data.token;
+      
+        if (userToken) {
+          await storageService.saveToken(userToken);
+      } else {
+          console.error("User token is undefined.");
+      }
+        // Update Redux state
+        dispatch(setUserData({
+          token: userToken,
+          uid: userUid,
+          email: form.email,
+          prefered_language: null,
+        }));
+      
+        // Update AsyncStorage
+        await storageService.saveToken(userToken);
+        await storageService.saveUID(userUid);
 
-        // Set UID to state
-        setUid(userUid);
-
-        // Save UID to local storage
-        localStorage.setItem("userUid", userUid);
+        // Navigate after everything is done
+        navigation.navigate("Main");
       }
     } catch (error) {
-      console.error("Error during login:", error); // Log the error
-      Alert.alert("Error", error.message);
+      console.error("Error during login:", error.response.data.detail); 
+      Alert.alert("Error", error.response.data.detail);
     }
-    if (response.data && response.data.message === "Login successful!") {
-      const userUid = response.data.uid;
-      const userToken = response.data.token;
-      const userEmail = form.email;  // You're collecting this from the form
-    
-      // Update Redux state
-      dispatch(setUserData({
-        token: userToken,
-        uid: userUid,
-        email: userEmail,
-        // ... Any other user details
-      }));
-    
-      // Update AsyncStorage
-      await storageService.saveToken(userToken);
-      await storageService.saveUID(userUid);
-      await storageService.saveEmail(userEmail);  // You'll need to create this function in storageService.js
-    }
-    
-  };
+};
+
   const showAlert = () => {
     Alert.alert("Success!", "Logged in successfully.", [
       {
