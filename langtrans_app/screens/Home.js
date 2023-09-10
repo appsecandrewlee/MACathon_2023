@@ -2,18 +2,42 @@
 import React, { useState } from 'react';
 import { View, Text, SafeAreaView, ScrollView, FlatList, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { colors, commonStyles, spacing } from '../styles/styles';
+import { useNavigation } from '@react-navigation/native'; 
 
 export default function MainScreen() {
 
+    const navigation = useNavigation();
+
+    // const userName = db.users.get(uid).name;
+    const userName = 'Andrew';
 
 
-    const wordList = ['Apple','Banana','Cucumber','Durian','Eggplant','Fig','Grape','Honeydew', 'Icaco', 'Jackfruit', 'Kiwi', 'Lime'];
+    // const wordList = ['Apple','Banana','Cucumber','Durian','Eggplant','Fig','Grape','Honeydew', 'Icaco', 'Jackfruit', 'Kiwi', 'Lime'];
     const slangList = ['Woolies','Mozzie','Barbie','No worries','Too easy','Mate','Arvo'];
     const collectionList = ['Programming', 'Supermaket', 'Gym', 'Badminton'];
 
     const pinks = ['#FF80C0', '#FF63B8', '#FF4D9D', '#FF3B9F', '#FF1287'];
     const purples = ['#D06EFF', '#B13BFF', '#9A00FF', '#8800CC', '#660099'];
     // const blues = ['#007ACC', '#004488', '#33B5E5', '#66C2FF', '#99D6FF'];
+
+    const [wordList, setWordList] = useState(['Apple','Banana','Cucumber','Durian','Eggplant','Fig','Grape','Honeydew', 'Icaco', 'Jackfruit', 'Kiwi', 'Lime']);
+
+    function addWord() {
+        dynamicWord = newWord;
+        setNewWord('');
+        setWordList((prevList) => [...prevList, dynamicWord]);
+    }
+
+    const [newWord, setNewWord] = useState('');
+    
+    let dynamicWord = '';
+
+    const handleNewWord = (text) => {
+        setNewWord(text);
+      };
+
+    
+    
 
     const makeBlues = () => {
         const blueStart = '#021B79';
@@ -71,7 +95,7 @@ export default function MainScreen() {
                 
                 {/* GREETINGS --------------------------------------------------------------------------*/}
                 <View style={commonStyles.header}>
-                    <Text style={[commonStyles.titleBlack, {marginBottom: 6}]}>Howdy, Chloe! 🤠</Text>
+                    <Text style={[commonStyles.titleBlack, {marginBottom: 6}]}>Howdy, {userName}! 🤠</Text>
                 </View>
                 <View style={commonStyles.spaceSmall}></View>
 
@@ -92,13 +116,17 @@ export default function MainScreen() {
                                 autoCorrect={false}
                                 style={styles.input}
                                 placeholder="Add a new word..."
+                                value={newWord}
+                                onChangeText={handleNewWord}
                                 // Add your onChangeText logic here
                                 />
                             </View>
 
                             {/* Add Button (Right) */}
-                            <TouchableOpacity style={styles.addButton}>
-                                <Text style={styles.buttonText}>+</Text>
+                            <TouchableOpacity onPress={addWord} style={styles.addButton}>
+                                <View>
+                                    <Text style={styles.buttonText}>+</Text>
+                                </View>
                             </TouchableOpacity>
                             </View>
 
@@ -138,16 +166,27 @@ export default function MainScreen() {
                         <View style={commonStyles.sectionBlack}>
                             <Text style={commonStyles.captionBlue}>My collections 📚</Text>
                         </View>
-                        <View style={[commonStyles.collectionContainer,{marginHorizontal: spacing.medium}]}>
-                                <Text style={commonStyles.wordText}>ALL</Text>
-                        </View>
+
+                        <TouchableOpacity 
+                            style={[commonStyles.collectionContainer,{marginHorizontal: spacing.medium}]}
+                            onPress={() => {
+                                navigation.navigate('Collection', {collectionName: 'All'});
+                            }}>
+                            <Text style={commonStyles.wordText}>ALL</Text>
+                        </TouchableOpacity>
+
+
                         <FlatList
                             data={collectionList}
                             keyExtractor={(item, index) => index.toString()}
                             renderItem={({ item, index }) => (
-                                <View style={[commonStyles.collectionContainer, { marginHorizontal: spacing.medium, backgroundColor: blues[index] }]}>
-                                <Text style={commonStyles.wordText}>{item}</Text>
-                                </View>
+                                <TouchableOpacity 
+                                    style={[commonStyles.collectionContainer, { marginHorizontal: spacing.medium, backgroundColor: blues[index] }]}
+                                    onPress={() => {
+                                        navigation.navigate('Collection', {collectionName: item});
+                                    }}>
+                                    <Text style={commonStyles.wordText}>{item}</Text>
+                                </TouchableOpacity>
                             )}
                         />
                     </View>

@@ -1,11 +1,8 @@
 import React from 'react';
 import { StyleSheet, SafeAreaView, View, Text, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-import { colors, commonStyles, spacing } from '../styles/styles';
-// NAV TAB BAR
+import { colors } from '../styles/styles';
 import 'react-native-gesture-handler';
-import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './Home'; // Import your screen components
 import ScanScreen from './Scan';
@@ -52,43 +49,6 @@ export default function MainScreen() {
     </Tab.Navigator>
   );
 }
-
-
-// export default function HomeScreen() {
-//     const navigation = useNavigation();
-//   return (
-//     <SafeAreaView style={{ flex: 1, backgroundColor: '#e8ecf4' }}>
-//       <View style={styles.container}>
-
-//         {/* Title */}
-//         <View style={styles.header}>
-//           <Text style={styles.title}>
-//             Welcome to <Text style={{ color: '#c90661' }}>LangTransApp</Text>
-//           </Text>
-//         </View>
-
-//         {/* Placeholder Text */}
-//         <View style={styles.placeholderContainer}>
-//           <Text style={styles.placeholderText}>Your Content Goes Here</Text>
-//         </View>
-
-//         {/* Navigation Bar */}
-//         <View style={styles.navBar}>
-//           <TouchableOpacity onPress={() => {}}>
-//             <Text style={styles.navText}>Home</Text>
-//           </TouchableOpacity>
-//           <TouchableOpacity onPress={() => navigation.navigate('Camera')}>
-//       <Text style={styles.navText}>Scan</Text>
-//     </TouchableOpacity>
-//           <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-//             <Text style={styles.navText}>Profile</Text>
-//           </TouchableOpacity>
-//         </View>
-
-//       </View>
-//     </SafeAreaView>
-//   );
-// }
 
 const styles = StyleSheet.create({
   container: {

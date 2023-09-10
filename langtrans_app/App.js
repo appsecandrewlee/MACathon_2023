@@ -8,6 +8,7 @@ import CameraScreen from "./screens/Scan"; // Assuming you also have a camera sc
 import MainScreen from "./screens/Main"; // Assuming you also have a camera screen
 import ProfileScreen from "./screens/Settings"; // Assuming you also have a camera screen
 import Definition from './screens/Definition'; 
+import CollectionScreen from "./screens/Collection";
 
 const Stack = createStackNavigator();
 
@@ -97,6 +98,11 @@ export default function App() {
         <Stack.Screen
           name="Main"
           component={MainScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Collection"
+          component={CollectionScreen}
           options={{ headerShown: false }}
         />
         {/* <Stack.Screen name="Camera" component={CameraScreen} options={{ title: 'Capture Image' }} /> */}

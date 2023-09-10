@@ -14,6 +14,7 @@ const colors = {
   blue: "#000000",
   // blue: '#2B2DA4',
   grey: "#F0F0F0",
+  
   text: "#FFFFFF",
   pink: "#FFB3E8",
   blue: "#000000",
