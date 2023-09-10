@@ -35,19 +35,19 @@ export default function CameraScreen() {
       // Define the size of the crop area
       const cropSize = 200;
 
-      // Calculate the positions for the crop
-      const x = (photo.width - cropSize) / 2;
-      const y = (photo.height - cropSize) / 2;
+      // // Calculate the positions for the crop
+      // const x = (photo.width - cropSize) / 2;
+      // const y = (photo.height - cropSize) / 2;
 
-      // Crop the image using ImageManipulator
-      let croppedPhoto = await ImageManipulator.manipulateAsync(
-        photo.uri,
-        [{ crop: { originX: x, originY: y, width: cropSize, height: cropSize }}]
-      );
+      // // Crop the image using ImageManipulator
+      // let croppedPhoto = await ImageManipulator.manipulateAsync(
+      //   photo.uri,
+      //   [{ crop: { originX: x, originY: y, width: cropSize, height: cropSize }}]
+      // );
 
       let formData = new FormData();
       formData.append("file", {
-        uri: croppedPhoto.uri,
+        uri: photo.uri,
         type: "image/jpeg",
         name: "upload.jpg",
       });
