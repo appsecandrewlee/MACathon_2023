@@ -17,22 +17,21 @@ export default function MainScreen() {
     
 
 
-    const getRandomColor = (colors) => {
-        const randomIndex = Math.floor(Math.random() * colors.length);
-        return colors[randomIndex];
-    };
+  const getRandomColor = (colors) => {
+    const randomIndex = Math.floor(Math.random() * colors.length);
+    return colors[randomIndex];
+  };
 
-
-    return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: colors.grey }}>
-
-            <ScrollView>
-                
-                {/* GREETINGS --------------------------------------------------------------------------*/}
-                <View style={commonStyles.header}>
-                    <Text style={[commonStyles.titleBlack, {marginBottom: 6}]}>Howdy, Chloe!</Text>
-                </View>
-                <View style={commonStyles.spaceSmall}></View>
+  return (
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.grey }}>
+      <ScrollView>
+        {/* GREETINGS --------------------------------------------------------------------------*/}
+        <View style={commonStyles.header}>
+          <Text style={[commonStyles.titleBlack, { marginBottom: 6 }]}>
+            Howdy, Chloe!
+          </Text>
+        </View>
+        <View style={commonStyles.spaceSmall}></View>
 
                     {/* TODAY --------------------------------------------------------------------------*/}
                     <View style={commonStyles.container}>
@@ -100,4 +99,4 @@ export default function MainScreen() {
             
         </SafeAreaView>
   );
-};
+}

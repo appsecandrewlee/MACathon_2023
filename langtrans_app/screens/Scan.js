@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { Camera } from 'expo-camera';
 import { useNavigation } from '@react-navigation/native';
-
+import storageService from '../services/storageService'; // <- Import storageService
 export default function CameraScreen() {
   const [hasPermission, setHasPermission] = useState(null);
   const cameraRef = useRef(null);
@@ -26,8 +26,9 @@ export default function CameraScreen() {
     return <Text>No access to camera</Text>;
   }
 
-  const captureImage = async () => {
 
+    const captureImage = async () => {
+      const uid = await storageService.getUID();
     console.log("Capture button pressed");
 
     if (cameraRef.current) {
@@ -41,7 +42,9 @@ export default function CameraScreen() {
         name: "upload.jpg",
       });
 
-        fetch("http://118.138.85.230:8000/upload", {
+      formData.append("uid", uid)
+
+        fetch("http://118.138.85.230:8000/upload/", {
             method: 'POST',
             body: formData,
             headers: {
@@ -55,7 +58,7 @@ export default function CameraScreen() {
             setTranslatedText(data.translated);
 
             console.log("Navigating to Definition");
-            navigation.navigate('Definition', { translatedText: data.translated });
+            navigation.navigate('Definition', { translatedText: data.original });
         })
         .catch((error) => {
           console.error("There was an error uploading the photo.", error);

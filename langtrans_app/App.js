@@ -7,14 +7,15 @@ import LoginScreen from "./screens/Login"; // Import the login screen
 import CameraScreen from "./screens/Scan"; // Assuming you also have a camera screen
 import MainScreen from "./screens/Main"; // Assuming you also have a camera screen
 import ProfileScreen from "./screens/Settings"; // Assuming you also have a camera screen
-import Definition from './screens/Definition'; 
-
+import Definition from "./screens/Definition";
+import { Provider } from 'react-redux';
+import store from './store';
 const Stack = createStackNavigator();
 
 export default function App() {
   const handleLogin = async () => {
     try {
-      const response = await axios.post("http://172.20.10.8:8000/login/", {
+      const response = await axios.post("http://118.138.85.230:8000/login/", {
         email: form.email,
         password: form.password,
       });
@@ -81,7 +82,7 @@ export default function App() {
     }
   };
 
-  return (
+  return ( <Provider store={store}>
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
         <Stack.Screen
@@ -99,10 +100,14 @@ export default function App() {
           component={MainScreen}
           options={{ headerShown: false }}
         />
-        {/* <Stack.Screen name="Camera" component={CameraScreen} options={{ title: 'Capture Image' }} /> */}
-        <Stack.Screen name="Definition" component={Definition} options={{ title: 'Definition' }} />
+        <Stack.Screen
+          name="Definition"
+          component={Definition}
+          options={{ title: "Definition" }}
+        />
         {/* Add more screens as needed */}
       </Stack.Navigator>
     </NavigationContainer>
+  </Provider>
   );
 }

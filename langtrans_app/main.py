@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, Form, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 import cv2
 import numpy as np
@@ -15,10 +15,10 @@ from firebase_admin._auth_utils import UserNotFoundError
 import jwt
 from fastapi import Depends, HTTPException
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-# import bcrypt
+import bcrypt
+from fastapi.security import OAuth2PasswordBearer
 
-
-
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/token/")
 
 class LoginData(BaseModel):
     email: str
@@ -49,15 +49,35 @@ app.add_middleware(
 SECRET_KEY = "YOUR_SECRET_KEY"  # Change this to a random, secure key
 
 @app.post("/store-user-data/")
-def store_user_data(uid: str, email: str, password: str):
+def store_user_data(uid: str, email: str, password: str, prefered_language: str = "zh-cn"):
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
     db = firestore.client()
     user_ref = db.collection(u'users').document(uid)
     user_ref.set({
         u'email': email,
-        u'password': hashed_password
+        u'password': hashed_password,
+        u'prefered_language': prefered_language  # Added comma here
     })
     return {"status": "success"}
+
+
+
+@app.post("/sign_up/")
+def sign_up(email: str = Body(...), password: str = Body(...), preferred_language: str = Body(...)):
+
+    try:
+        print(preferred_language)
+        user = auth.create_user(
+            email=email,
+            password=password
+        )
+        print(user)
+        store_user_data(uid=user.uid, email=email, password=password, prefered_language= preferred_language,)
+        return {"message": "Account created successfully", "uid": user.uid, "preferred_language": preferred_language}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
 
 @app.post("/token/")
 def generate_token(email: str, password: str):
@@ -82,17 +102,6 @@ def generate_token(email: str, password: str):
     return {"token": token}
 
 
-@app.post("/")
-def sign_up(email: str = Body(...), password: str = Body(...)):
-    try:
-        # Create a new user using Firebase Authentication
-        user = auth.create_user(
-            email=email,
-            password=password
-        )
-        return {"message": "Account created successfully", "uid": user.uid}
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
 
 
 @app.post("/login/")
@@ -100,7 +109,7 @@ def login(data: LoginData):
     try:
         user_record = auth.get_user_by_email(data.email)
         
-        print(data)
+        print(user_record)
         return {"message": "Email is valid. Password verification should be handled in the frontend."}
     
     except UserNotFoundError:
@@ -130,7 +139,7 @@ def verify_token(id_token: str):
         return {"error": "Invalid token"}
 
 @app.post("/upload/")
-async def upload_image(uid: str, file: UploadFile = File(...)):
+async def upload_image(uid: str = Form(...), file: UploadFile = File(...)):
     image_stream = await file.read()
     image_np = np.fromstring(image_stream, np.uint8)
     image = cv2.imdecode(image_np, cv2.IMREAD_COLOR)
@@ -161,8 +170,16 @@ async def upload_image(uid: str, file: UploadFile = File(...)):
     text = pytesseract.image_to_string(image)
     print(text)
     
+    user_ref = db.collection(u'users').document(uid)
+    user_data = user_ref.get()
+    if user_data.exists:
+        preferred_language = user_data.to_dict().get('prefered_language', 'en-US')  # Default to English if not found
+    else:
+        # Handle error: user not found in Firestore
+        raise HTTPException(status_code=404, detail="User not found in Firestore")
+    
     # Translate the text (for this example, translating to English)
-    result = translate_text(text)
+    result = translate_text(text, preferred_language )
     translated_text = result['translatedText']
 
     # Store the original and translated text in Firestore
@@ -172,9 +189,19 @@ async def upload_image(uid: str, file: UploadFile = File(...)):
     # })
     print("Processed image")
 
-    return {"original": text, "image_url": image_url}
+    return {"original": text, "translated": translate_text}
 
 @app.get("/translate/")
+def translate_api(text: str):
+    try:
+        result = translate_text(str)
+        if result:
+            return result
+        else:
+            return {"error": "Document does not exist"}
+    except Exception as e:
+        return {"error": str(e)}
+    
 def translate_text(
     text: str = "YOUR_TEXT_TO_TRANSLATE", original_language: str = "zh-cn"
 ):
@@ -219,6 +246,19 @@ def detect_language(text: str) -> dict:
     print("Language: {}".format(result["language"]))
 
     return result
+
+
+
+
+def get_current_user(token: str = Depends(oauth2_scheme)):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+        email: str = payload.get("email")
+        if email is None:
+            raise HTTPException(status_code=401, detail="Could not validate credentials")
+        return email
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Could not validate credentials")
 
 
 print(translate_text("Hello my name is"))

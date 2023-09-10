@@ -4,6 +4,9 @@ import LinearGradient from "react-native-linear-gradient";
 import axios from "axios";
 import { Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from 'react-redux'; 
+import { setUserData } from '../slices/userSlice';
+import storageService from '../services/storageService';
 
 import {
   SafeAreaView,
@@ -22,6 +25,7 @@ export default function Login() {
     email: "",
     password: "",
   });
+  const dispatch = useDispatch();
 
   const [message, setMessage] = useState("");
 
@@ -56,6 +60,25 @@ export default function Login() {
       console.error("Error during login:", error); // Log the error
       Alert.alert("Error", error.message);
     }
+    if (response.data && response.data.message === "Login successful!") {
+      const userUid = response.data.uid;
+      const userToken = response.data.token;
+      const userEmail = form.email;  // You're collecting this from the form
+    
+      // Update Redux state
+      dispatch(setUserData({
+        token: userToken,
+        uid: userUid,
+        email: userEmail,
+        // ... Any other user details
+      }));
+    
+      // Update AsyncStorage
+      await storageService.saveToken(userToken);
+      await storageService.saveUID(userUid);
+      await storageService.saveEmail(userEmail);  // You'll need to create this function in storageService.js
+    }
+    
   };
   const showAlert = () => {
     Alert.alert("Success!", "Logged in successfully.", [
@@ -117,8 +140,7 @@ export default function Login() {
           </View>
 
           <View style={commonStyles.formAction}>
-            <TouchableOpacity
-             onPress={handleLogin}>
+            <TouchableOpacity onPress={handleLogin}>
               <View style={commonStyles.btn}>
                 <Text style={commonStyles.btnText}>LOG IN</Text>
               </View>

@@ -1,11 +1,18 @@
 import React from 'react';
+import { useDispatch } from 'react-redux'; // <- Import useDispatch
 import { View, Text, StyleSheet, Image, TouchableOpacity, FlatList, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native'; 
 import { colors, commonStyles } from '../styles/styles';
+import storageService from '../services/storageService'; // <- Import storageService
+import { clearUserData } from '../slices/userSlice.js';
+import { Alert } from "react-native";
+// Import your logout action
+
+
 
 export default function SettingsScreen() {
-
-    const navigation = useNavigation()
+    const navigation = useNavigation();
+    const dispatch = useDispatch(); // <- Use the useDispatch hook
 
     const items = [
       { id: '1', title: 'My Profile' },
@@ -13,7 +20,7 @@ export default function SettingsScreen() {
       { id: '3', title: 'Privacy' },
       { id: '4', title: 'Log Out' },
     ];
-  
+
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
       <View style={styles.container}>
@@ -33,9 +40,16 @@ export default function SettingsScreen() {
               style={styles.settingItem}
               onPress={() => {
                 if (item.title === 'Log Out') {
-                  // Perform any logout logic here (e.g., clear authentication state)
-                  // Then, navigate to the LoginScreen
-                  navigation.navigate('Login'); // 'Login' should match the name of your LoginScreen component in your navigation stack
+                  dispatch(clearUserData());
+                  Alert.alert("Success!", "Logged out successfully.", [
+                    {
+                      text: "OK",
+                      onPress: () => {
+                        console.log("Logging out"); // Log before navigating
+                        navigation.navigate("Login");
+                      },
+                    },
+                  ]);
                 }
               }}>
                 <Text style={commonStyles.inputLabelBlack}>{item.title}</Text>
