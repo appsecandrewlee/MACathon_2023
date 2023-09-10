@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, Form, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 import cv2
 import numpy as np
@@ -139,7 +139,7 @@ def verify_token(id_token: str):
         return {"error": "Invalid token"}
 
 @app.post("/upload/")
-async def upload_image(uid: str, file: UploadFile = File(...)):
+async def upload_image(uid: str = Form(...), file: UploadFile = File(...)):
     image_stream = await file.read()
     image_np = np.fromstring(image_stream, np.uint8)
     image = cv2.imdecode(image_np, cv2.IMREAD_COLOR)
@@ -170,8 +170,16 @@ async def upload_image(uid: str, file: UploadFile = File(...)):
     text = pytesseract.image_to_string(image)
     print(text)
     
+    user_ref = db.collection(u'users').document(uid)
+    user_data = user_ref.get()
+    if user_data.exists:
+        preferred_language = user_data.to_dict().get('prefered_language', 'en-US')  # Default to English if not found
+    else:
+        # Handle error: user not found in Firestore
+        raise HTTPException(status_code=404, detail="User not found in Firestore")
+    
     # Translate the text (for this example, translating to English)
-    result = translate_text(text)
+    result = translate_text(text, preferred_language )
     translated_text = result['translatedText']
 
     # Store the original and translated text in Firestore
