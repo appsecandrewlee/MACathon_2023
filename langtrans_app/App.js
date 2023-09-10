@@ -102,6 +102,11 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
+          name="Collection"
+          component={CollectionScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
           name="Definition"
           component={Definition}
           options={{ title: "Definition" }}

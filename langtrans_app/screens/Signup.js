@@ -4,6 +4,7 @@ import axios from "axios";
 import { useDispatch } from 'react-redux';
 import { setUserData } from '../slices/userSlice';
 import storageService from '../services/storageService';
+import { SelectList } from 'react-native-dropdown-select-list';
 
 import {
   SafeAreaView,
@@ -11,52 +12,22 @@ import {
   Text,
   TouchableOpacity,
   TextInput,
-  Alert, // Import Alert
-} from "react-native";
+  ScrollView
+} from 'react-native';
+// import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-export default function SignupScreen({ navigation }) {
-  const dispatch = useDispatch();
+export default function SignupScreen({navigation}) {
+  
   const [form, setForm] = useState({
-    preferred_language: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
+    fullname: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
   });
-  const [uid, setUid] = useState(null);
-  const handleSignup = async () => {
-    try {
-      const response = await axios.post("http://118.138.85.230:8000/sign_up/", {
-        email: form.email,
-        password: form.password,
-        preferred_language: form.preferred_language,
-      });
-      console.log(form.email, form.password, form.preferred_language);
-
-
-    } catch (error) {
-      if (error.response) {
-        // The request was made and the server responded with a status code outside of the range of 2xx
-        Alert.alert(
-          "Error",
-          error.response.data.message || "An error occurred during signup.",
-        );
-      } else if (error.request) {
-        // The request was made but no response was received
-        Alert.alert(
-          "Error",
-          "No response received from the server. Please check your server or network connection.",
-        );
-      } else {
-        // Something happened in setting up the request and triggered an error
-        Alert.alert("Error", error.message);
-      }
-    }
-
-
-
-  };
+  
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.blue }}>
+      <ScrollView>
       <View style={commonStyles.container}>
         <View style={commonStyles.header}>
           <Text style={[commonStyles.title, { marginBottom: 6 }]}>
@@ -66,33 +37,48 @@ export default function SignupScreen({ navigation }) {
             Create an account to continue
           </Text>
         </View>
+        
+        <View style={commonStyles.form}>
+          
+          <View style={commonStyles.input}>
+            <Text style={commonStyles.inputLabel}>Full name</Text>
+            <TextInput
+              onChangeText={fullname => setForm({ ...form, fullname })}
+              placeholder="John Doe"
+              placeholderTextColor="#6b7280"
+              style={commonStyles.inputControl}
+              value={form.fullname}
+            />
+          </View>
 
-        <View style={commonStyles.input}>
-          <Text style={commonStyles.inputLabel}>Preferred Language</Text>
-          <TextInput
-            onChangeText={(preferred_language) =>
-              setForm({ ...form, preferred_language })
-            }
-            placeholder="English"
-            placeholderTextColor="#6b7280"
-            style={commonStyles.inputControl}
-            value={form.preferred_language}
-          />
-        </View>
+          <View style={commonStyles.input}>
+            <Text style={commonStyles.inputLabel}>Language</Text>
+            <SelectList 
+                setSelected={(val) => setSelected(val)} 
+                data={languages} 
+                save="value"
+                boxStyles={{backgroundColor: "#fff"}}
+                dropdownStyles={{backgroundColor: "#fff"}}
+                placeholder="Chinese (Simplified)"
+                placeholderTextColor="#6b7280"
+                value={form.language}
+                inputStyles={{fontSize: 15,fontWeight: "500", color: '#333'}}
+            />
+          </View>
 
-        <View style={commonStyles.input}>
-          <Text style={commonStyles.inputLabel}>Email address</Text>
-          <TextInput
-            autoCapitalize="none"
-            autoCorrect={false}
-            keyboardType="email-address"
-            onChangeText={(email) => setForm({ ...form, email })}
-            placeholder="john@example.com"
-            placeholderTextColor="#6b7280"
-            style={commonStyles.inputControl}
-            value={form.email}
-          />
-        </View>
+          <View style={commonStyles.input}>
+            <Text style={commonStyles.inputLabel}>Email address</Text>
+            <TextInput
+              autoCapitalize="none"
+              autoCorrect={false}
+              keyboardType="email-address"
+              onChangeText={email => setForm({ ...form, email })}
+              placeholder="john@example.com"
+              placeholderTextColor="#6b7280"
+              style={commonStyles.inputControl}
+              value={form.email}
+            />
+          </View>
 
         <View style={commonStyles.input}>
           <Text style={commonStyles.inputLabel}>Password</Text>
@@ -122,12 +108,30 @@ export default function SignupScreen({ navigation }) {
           />
         </View>
 
-        <View style={commonStyles.formAction}>
-          <TouchableOpacity onPress={handleSignup}>
-            <View style={commonStyles.btn}>
-              <Text style={commonStyles.btnText}>SIGN UP</Text>
-            </View>
+          <View style={commonStyles.formAction}>
+            <TouchableOpacity
+              onPress={() => {
+                // handle onPress 
+              }}>
+              <View style={commonStyles.btn}>
+                <Text style={commonStyles.btnText}>SIGN UP</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+
+          <View style={commonStyles.spaceTini}></View>
+
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Login')}
+            style={{ marginTop: 'auto' }}>
+            <Text style={commonStyles.formFooter}>
+              Already have an account?{' '}
+              <Text style={{ textDecorationLine: 'underline' }}>Log In</Text>
+            </Text>
           </TouchableOpacity>
+
+          <View style={commonStyles.spaceSmall}></View>
+
         </View>
 
         <TouchableOpacity
@@ -140,6 +144,9 @@ export default function SignupScreen({ navigation }) {
           </Text>
         </TouchableOpacity>
       </View>
+      </ScrollView>
+      
     </SafeAreaView>
   );
 }
+
