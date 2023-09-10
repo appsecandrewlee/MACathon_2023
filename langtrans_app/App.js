@@ -11,6 +11,8 @@ import Definition from "./screens/Definition";
 import Results from "./screens/Results";
 import { Provider } from 'react-redux';
 import store from './store';
+import CollectionScreen from "./screens/Collection";
+
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -107,6 +109,12 @@ export default function App() {
           options={{ title: "Definition" }}
         />
         <Stack.Screen name="Results" component={Results} />
+          name="Collection"
+          component={CollectionScreen}
+          options={{ headerShown: false }}
+        />
+        {/* <Stack.Screen name="Camera" component={CameraScreen} options={{ title: 'Capture Image' }} /> */}
+        <Stack.Screen name="Definition" component={Definition} options={{ title: 'Definition' }} />
         {/* Add more screens as needed */}
       </Stack.Navigator>
     </NavigationContainer>

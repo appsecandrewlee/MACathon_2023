@@ -4,6 +4,7 @@ import axios from "axios";
 import { useDispatch } from 'react-redux';
 import { setUserData } from '../slices/userSlice';
 import storageService from '../services/storageService';
+import { SelectList } from 'react-native-dropdown-select-list';
 
 import {
   SafeAreaView,
@@ -11,17 +12,51 @@ import {
   Text,
   TouchableOpacity,
   TextInput,
+  ScrollView,
   Alert, // Import Alert
 } from "react-native";
 
 export default function SignupScreen({ navigation }) {
+
+  // chloe
+
+  const [selectedValue, setSelectedValue] = useState('option1');
+
+  const items = [
+    { label: 'Option 1', value: 'option1' },
+    { label: 'Option 2', value: 'option2' },
+    { label: 'Option 3', value: 'option3' },
+  ];
+
+  const [selected, setSelected] = React.useState("");
+  
+  const languages = [
+      {key:'1', value:'Chinese (Simplified)'},
+      {key:'2', value:'Chinese (Traditional)'},
+      {key:'3', value:'Danish'},
+      {key:'4', value:'German'},
+      {key:'5', value:'Korea'},
+      {key:'6', value:'Hindu'},
+      {key:'7', value:'Indonesian'},
+      {key:'8', value:'Japanese'},
+      {key:'9', value:'Korean'},
+      {key:'10', value:'Norwegian'},
+      {key:'11', value:'Portugese'},
+      {key:'12', value:'Vietnamese'},
+  ]
+  
+  // chloe
+
   const dispatch = useDispatch();
+
   const [form, setForm] = useState({
+    fullname: "",
     preferred_language: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
+
   const [uid, setUid] = useState(null);
   const handleSignup = async () => {
     try {
@@ -57,6 +92,7 @@ export default function SignupScreen({ navigation }) {
   };
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.blue }}>
+      <ScrollView>
       <View style={commonStyles.container}>
         <View style={commonStyles.header}>
           <Text style={[commonStyles.title, { marginBottom: 6 }]}>
@@ -66,33 +102,48 @@ export default function SignupScreen({ navigation }) {
             Create an account to continue
           </Text>
         </View>
+        
+        <View style={commonStyles.form}>
+          
+          <View style={commonStyles.input}>
+            <Text style={commonStyles.inputLabel}>Full name</Text>
+            <TextInput
+              onChangeText={fullname => setForm({ ...form, fullname })}
+              placeholder="John Doe"
+              placeholderTextColor="#6b7280"
+              style={commonStyles.inputControl}
+              value={form.fullname}
+            />
+          </View>
 
-        <View style={commonStyles.input}>
-          <Text style={commonStyles.inputLabel}>Preferred Language</Text>
-          <TextInput
-            onChangeText={(preferred_language) =>
-              setForm({ ...form, preferred_language })
-            }
-            placeholder="English"
-            placeholderTextColor="#6b7280"
-            style={commonStyles.inputControl}
-            value={form.preferred_language}
-          />
-        </View>
+          <View style={commonStyles.input}>
+            <Text style={commonStyles.inputLabel}>Language</Text>
+            <SelectList 
+                setSelected={(val) => setSelected(val)} 
+                data={languages} 
+                save="value"
+                boxStyles={{backgroundColor: "#fff"}}
+                dropdownStyles={{backgroundColor: "#fff"}}
+                placeholder="Chinese (Simplified)"
+                placeholderTextColor="#6b7280"
+                value={form.language}
+                inputStyles={{fontSize: 15,fontWeight: "500", color: '#333'}}
+            />
+          </View>
 
-        <View style={commonStyles.input}>
-          <Text style={commonStyles.inputLabel}>Email address</Text>
-          <TextInput
-            autoCapitalize="none"
-            autoCorrect={false}
-            keyboardType="email-address"
-            onChangeText={(email) => setForm({ ...form, email })}
-            placeholder="john@example.com"
-            placeholderTextColor="#6b7280"
-            style={commonStyles.inputControl}
-            value={form.email}
-          />
-        </View>
+          <View style={commonStyles.input}>
+            <Text style={commonStyles.inputLabel}>Email address</Text>
+            <TextInput
+              autoCapitalize="none"
+              autoCorrect={false}
+              keyboardType="email-address"
+              onChangeText={email => setForm({ ...form, email })}
+              placeholder="john@example.com"
+              placeholderTextColor="#6b7280"
+              style={commonStyles.inputControl}
+              value={form.email}
+            />
+          </View>
 
         <View style={commonStyles.input}>
           <Text style={commonStyles.inputLabel}>Password</Text>
@@ -122,12 +173,30 @@ export default function SignupScreen({ navigation }) {
           />
         </View>
 
-        <View style={commonStyles.formAction}>
-          <TouchableOpacity onPress={handleSignup}>
-            <View style={commonStyles.btn}>
-              <Text style={commonStyles.btnText}>SIGN UP</Text>
-            </View>
+          <View style={commonStyles.formAction}>
+            <TouchableOpacity
+              onPress={() => {
+                // handle onPress 
+              }}>
+              <View style={commonStyles.btn}>
+                <Text style={commonStyles.btnText}>SIGN UP</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+
+          <View style={commonStyles.spaceTini}></View>
+
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Login')}
+            style={{ marginTop: 'auto' }}>
+            <Text style={commonStyles.formFooter}>
+              Already have an account?{' '}
+              <Text style={{ textDecorationLine: 'underline' }}>Log In</Text>
+            </Text>
           </TouchableOpacity>
+
+          <View style={commonStyles.spaceSmall}></View>
+
         </View>
 
         <TouchableOpacity
@@ -140,6 +209,9 @@ export default function SignupScreen({ navigation }) {
           </Text>
         </TouchableOpacity>
       </View>
+      </ScrollView>
+      
     </SafeAreaView>
   );
 }
+
