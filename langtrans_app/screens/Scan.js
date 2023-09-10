@@ -29,23 +29,26 @@ export default function CameraScreen() {
 
   const captureImage = async () => {
     const uid = await storageService.getUID();
+    if (!uid) {
+      console.error("UID is null. Cannot proceed with the request.");
+      return;
+    }
+    
     console.log("Capture button pressed");
-
+  
     if (cameraRef.current) {
       let photo = await cameraRef.current.takePictureAsync();
       console.log("photo", photo);
-
+  
       let formData = new FormData();
       formData.append("file", {
         uri: photo.uri,
         type: "image/jpeg", // or photo.type
         name: "upload.jpg",
       });
-
-      console.log(uid);
+  
       formData.append("uid", uid);
-
-
+  
       fetch("http://118.138.85.230:8000/upload/", {
         method: 'POST',
         body: formData,
@@ -65,8 +68,10 @@ export default function CameraScreen() {
         .catch((error) => {
           console.error("There was an error uploading the photo.", error);
         });
+      }
     }
   };
+  
 
 
   return (
@@ -86,18 +91,18 @@ export default function CameraScreen() {
           <Text style={{ fontSize: 18, color: "white" }}>Capture</Text>
         </TouchableOpacity>
 
-        {/* Display the translated text below the Capture button */}
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('Definition')
-            setIsTextVisible(!isTextVisible);
-          }}
-        >
-          {isTextVisible && <Text style={{ fontSize: 16, color: 'white', marginTop: 20 }}>{translatedText}</Text>}
-        </TouchableOpacity>
+      {/* Display the translated text below the Capture button */}
+      <TouchableOpacity 
+        onPress={() => {
+          navigation.navigate('Results')
+          setIsTextVisible(!isTextVisible);
+        }}
+      >
+        {isTextVisible && <Text style={{ fontSize: 16, color: 'white', marginTop: 20 }}>{translatedText}</Text>}
+      </TouchableOpacity>
 
       </View>
     </View>
   );
 
-}
+s
