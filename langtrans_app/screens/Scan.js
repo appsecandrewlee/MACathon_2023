@@ -60,7 +60,7 @@ export default function CameraScreen() {
           setTranslatedText(data.translated);
 
           console.log("Navigating to Definition");
-          navigation.navigate('Result', { translatedText: data.original, capturedText: data.translated});
+          navigation.navigate('Results', { translatedText: data.original, capturedText: data.translated});
         })
         .catch((error) => {
           console.error("There was an error uploading the photo.", error);
