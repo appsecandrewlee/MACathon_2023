@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 export default function Results({ route }) {
@@ -11,25 +11,57 @@ export default function Results({ route }) {
   };
 
   const renderClickableText = (text) => {
+    if (!text) return <Text>No text available</Text>;
+  
     return text.split(' ').map((word, index) => (
       <TouchableOpacity key={index} onPress={() => handleWordClick(word)}>
-        <Text style={{ color: 'blue' }}>{word + ' '}</Text>
+        <Text style={styles.clickableWord}>{word + ' '}</Text>
       </TouchableOpacity>
     ));
   };
+  
 
   return (
-    <View>
-      <Text>Translated Text: </Text>
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-        {renderClickableText(translatedText)}
+    <ScrollView style={styles.container}>
+      <View>
+        <Text style={styles.title}>Captured Text:</Text>
+        <View style={styles.textContainer}>
+          {renderClickableText(capturedText)}
+        </View>
+
+        <View style={styles.line}></View>
+
+        <Text style={styles.title}>Translated Text:</Text>
+        <View style={styles.textContainer}>
+          {renderClickableText(translatedText)}
+        </View>
       </View>
-      <Text>Captured Text: </Text>
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-        {renderClickableText(capturedText)}
-      </View>
-    </View>
+    </ScrollView>
   );
 }
 
-  
+const styles = StyleSheet.create({
+    container: {
+      padding: 20,
+      backgroundColor: '#f4f4f4',
+    },
+    title: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      marginBottom: 10,
+    },
+    line: {
+        height: 1, 
+        backgroundColor: 'grey', 
+        marginVertical: 30, 
+    },
+    textContainer: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      marginBottom: 20,
+    },
+    clickableWord: {
+      color: 'blue',
+      fontSize: 16,
+    },
+});
