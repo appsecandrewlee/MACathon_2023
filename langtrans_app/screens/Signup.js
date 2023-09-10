@@ -32,32 +32,7 @@ export default function SignupScreen({ navigation }) {
       });
       console.log(form.email, form.password, form.preferred_language);
 
-      if (response.data && response.data.message === "Account created successfully") {
-        const userUid = response.data.uid;
-        const userToken = response.data.token;
-        const userEmail = form.email;
-        const userLanguage = form.preferred_language; // From the form
 
-        // Update Redux state
-        dispatch(setUserData({
-          token: userToken,
-          uid: userUid,
-          email: userEmail,
-          preferred_language: userLanguage,
-          // ... Any other user details
-        }));
-
-        // Update AsyncStorage
-        await storageService.saveToken(userToken);
-        await storageService.saveUID(userUid);
-        await storageService.saveEmail(userEmail);
-        await storageService.savePreferredLanguage(userLanguage);  // Again, you'll need to create this in storageService.js
-      } else {
-        Alert.alert(
-          "Error",
-          response.data.message || "An error occurred during signup.",
-        );
-      }
     } catch (error) {
       if (error.response) {
         // The request was made and the server responded with a status code outside of the range of 2xx
