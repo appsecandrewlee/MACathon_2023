@@ -4,9 +4,6 @@ import LinearGradient from "react-native-linear-gradient";
 import axios from "axios";
 import { Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useDispatch } from 'react-redux'; 
-import { setUserData } from '../slices/userSlice';
-import storageService from '../services/storageService';
 
 import {
   SafeAreaView,
@@ -25,7 +22,6 @@ export default function Login() {
     email: "",
     password: "",
   });
-  const dispatch = useDispatch();
 
   const [message, setMessage] = useState("");
 
@@ -42,40 +38,25 @@ export default function Login() {
         email: form.email,
         password: form.password,
       });
+      showAlert();
+      navigation.navigate("Main");
 
-      console.log("Backend Response:", response.data); 
+      console.log("Backend Response:", response.data); // Log the response
 
-      if (response.data && response.data.message == "Login successful.") {
-        console.log(response.data.data._data.localId)
-        const userUid = response.data.data._data.localId;
-        const userToken = response.data.token;
-      
-        if (userToken) {
-          await storageService.saveToken(userToken);
-      } else {
-          console.error("User token is undefined.");
-      }
-        // Update Redux state
-        dispatch(setUserData({
-          token: userToken,
-          uid: userUid,
-          email: form.email,
-          prefered_language: null,
-        }));
-      
-        // Update AsyncStorage
-        await storageService.saveToken(userToken);
-        await storageService.saveUID(userUid);
+      if (response.data && response.data.message === "Login successful!") {
+        const userUid = response.data.uid;
 
-        // Navigate after everything is done
-        navigation.navigate("Main");
+        // Set UID to state
+        setUid(userUid);
+
+        // Save UID to local storage
+        localStorage.setItem("userUid", userUid);
       }
     } catch (error) {
-      console.error("Error during login:", error.response.data.detail); 
-      Alert.alert("Error", error.response.data.detail);
+      console.error("Error during login:", error); // Log the error
+      Alert.alert("Error", error.message);
     }
-};
-
+  };
   const showAlert = () => {
     Alert.alert("Success!", "Logged in successfully.", [
       {
@@ -136,7 +117,8 @@ export default function Login() {
           </View>
 
           <View style={commonStyles.formAction}>
-            <TouchableOpacity onPress={handleLogin}>
+            <TouchableOpacity
+             onPress={handleLogin}>
               <View style={commonStyles.btn}>
                 <Text style={commonStyles.btnText}>LOG IN</Text>
               </View>

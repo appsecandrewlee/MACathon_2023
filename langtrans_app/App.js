@@ -108,13 +108,18 @@ export default function App() {
           component={Definition}
           options={{ title: "Definition" }}
         />
-        <Stack.Screen name="Results" component={Results} />
+        <Stack.Screen 
           name="Collection"
           component={CollectionScreen}
           options={{ headerShown: false }}
-        />
+          />
+        <Stack.Screen 
+          name="Results" 
+          component={Results}
+          options={{ headerShown: false }}
+          />
+        {/* /> */}
         {/* <Stack.Screen name="Camera" component={CameraScreen} options={{ title: 'Capture Image' }} /> */}
-        <Stack.Screen name="Definition" component={Definition} options={{ title: 'Definition' }} />
         {/* Add more screens as needed */}
       </Stack.Navigator>
     </NavigationContainer>

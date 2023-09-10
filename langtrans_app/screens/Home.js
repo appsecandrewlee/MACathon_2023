@@ -1,6 +1,6 @@
 // HomeScreen.js
 
-import React from 'react';
+import React, { useState } from "react";
 import axios from "axios";
 import { View, Text, SafeAreaView, ScrollView, FLatList, TextInput, StyleSheet, TouchableHighlight, TouchableOpacity,  FlatList } from 'react-native';
 import { colors, commonStyles, spacing } from '../styles/styles';
